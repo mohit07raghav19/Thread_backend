@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.thread.Post.model.Post;
 import com.example.thread.Post.model.PostResponse;
 import com.example.thread.Post.repo.PostRepo;
+import com.example.thread.Roles.repo.RoleRepo;
 import com.example.thread.User.model.User;
 import com.example.thread.User.repo.UserRepo;
 
@@ -23,12 +24,15 @@ public class PostServiceImpl implements PostService {
 
     // Please Create a folder("MyImages") in public dir of React App.
     // And Add the Full Path here
-    public final static String FOLDER_PATH = "/Users/mohitraghav/Desktop/WebD-2/LCS2022032_lab8/React_app/public/MyImages/";
+    public final static String FOLDER_PATH = "/Users/mohitraghav/Desktop/THREAD_MOHIT/Thread_repo/Thread_frontend/frontend/public/MyImages/";
 
     @Autowired
     private PostRepo postRepo;
     @Autowired
     UserRepo userRepo;
+
+    @Autowired
+    RoleRepo roleRepo;
 
     public PostServiceImpl() {
         super();
@@ -202,7 +206,8 @@ public class PostServiceImpl implements PostService {
         if (post == null) {
             return false;
         }
-        if (LoggedInUser.getUserName().equals(post.getUser().getUserName())) {
+        if (LoggedInUser.getUserName().equals(post.getUser().getUserName())
+                || LoggedInUser.getRole().contains(roleRepo.findByRoleName("Admin"))) {
             this.postRepo.delete(post);
             return true;
         }

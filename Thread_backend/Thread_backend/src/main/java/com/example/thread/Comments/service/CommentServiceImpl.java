@@ -14,6 +14,7 @@ import com.example.thread.Comments.model.CommentResponse;
 import com.example.thread.Comments.repo.CommentRepo;
 import com.example.thread.Post.model.Post;
 import com.example.thread.Post.repo.PostRepo;
+import com.example.thread.Roles.repo.RoleRepo;
 import com.example.thread.User.model.User;
 import com.example.thread.User.repo.UserRepo;
 
@@ -24,7 +25,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     private UserRepo userRepo;
-
+    @Autowired
+    private RoleRepo roleRepo;
     @Autowired
     private CommentRepo commentRepo;
 
@@ -107,18 +109,19 @@ public class CommentServiceImpl implements CommentService {
         if (LoggedInUser == null) {
             throw new Exception("user not authorized");
         }
+        List<CommentResponse> cResp;
         Comment commentToDelete = commentRepo.findById(comment_id).orElse(null);
         if (commentToDelete == null) {
             throw new Exception("Comment not found");
         }
-        if (commentToDelete.getCommentBy() != LoggedInUser) {
+        if (commentToDelete.getCommentBy() == LoggedInUser
+                || LoggedInUser.getRole().contains(roleRepo.findByRoleName("Admin"))) {
+            commentRepo.delete(commentToDelete);
+            cResp = commentService.showPostComments(authentication,
+                    commentToDelete.getPostOn().getPostId());
+        } else {
             throw new Exception("Not authorized to delete this comment");
         }
-
-        commentRepo.delete(commentToDelete);
-        List<CommentResponse> cResp = commentService.showPostComments(authentication,
-                commentToDelete.getPostOn().getPostId());
-
         return cResp;
     }
 

@@ -8,12 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-
-
-
 import com.example.thread.User.model.User;
 import com.example.thread.User.repo.UserRepo;
-
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,9 +22,7 @@ import java.util.function.Function;
 public class JwtUtil {
     @Autowired
 
-
     private UserRepo userRepo;
-
 
     private static final String SECRET_KEY = "mohit_raghav_lcs32";
 
@@ -73,8 +67,6 @@ public class JwtUtil {
             roles.add(new String(r.getAuthority()));
         });
 
-
-
         String userProfile = user.getProfileImage();
         String userName = user.getUserName();
         String userFullName = user.getUserFullName();
@@ -82,7 +74,6 @@ public class JwtUtil {
         claims.put("userName", userName);
         claims.put("userFullName", userFullName);
         claims.put("userProfileImage", userProfile);
-
 
         return Jwts.builder()
                 .setClaims(claims)

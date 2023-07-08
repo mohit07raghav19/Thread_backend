@@ -19,6 +19,8 @@ public class PostResponse {
     private String postImage;
     private String creationTime;
     private int likes;
+    private int isliked;
+
     private List<CommentResponse> comments;
 
     public String getPostId() {
@@ -135,6 +137,14 @@ public class PostResponse {
 
     public void setComments(List<CommentResponse> comments) {
         this.comments = comments;
+    }
+
+    public int getIsliked() {
+        return isliked;
+    }
+
+    public void setIsliked(int isliked) {
+        this.isliked = isliked;
     }
 
 }
