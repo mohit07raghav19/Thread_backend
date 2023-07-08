@@ -3,16 +3,24 @@ package com.example.thread.Auth.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.example.thread.User.service.UserService;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
 @Component
 public class JwtUtil {
+    @Autowired
+    private UserService userService;
 
     private static final String SECRET_KEY = "mohit_raghav_lcs32";
 
@@ -48,8 +56,15 @@ public class JwtUtil {
     public String generateToken(UserDetails userDetails) {
 
         Map<String, Object> claims = new HashMap<>();
+
         // Token Validity = 18 sec
         // EXpiration = 5 hrs
+        List<String> roles = new ArrayList<>();
+        userDetails.getAuthorities().forEach(r -> {
+            roles.add(new String(r.getAuthority()));
+        });
+        claims.put("roles", roles);
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())

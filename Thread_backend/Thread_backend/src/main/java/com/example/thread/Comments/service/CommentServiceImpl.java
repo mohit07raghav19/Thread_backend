@@ -62,8 +62,8 @@ public class CommentServiceImpl implements CommentService {
 
             Comment c6 = new Comment("Ya..well said", user10, post2, null);
             c6.setCreationTime(LocalDateTime.now());
-            Comment c7 = new Comment("Ya..well said", user4, post5, null);
-            c7.setCreationTime(LocalDateTime.now());
+            Comment c7 = new Comment("Shi kaha bhai", user4, post5, null);
+            c7.setCreationTime(LocalDateTime.of(2023, 07, 9, 05, 00, 00));
 
             commentRepo.save(c1);
             commentRepo.save(c2);
