@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
                         user3.setRole(userRoles);
                         User user4 = new User("asur_official", "Mukti Giver", " ", "asur@gmail.com", "Paataallok",
                                         "Male",
-                                        null, "user4.jpg");
+                                        null, "user4.jpeg");
                         user4.setUserPassword(getEncodedPassword("Asur@1234"));
                         user4.setRole(userRoles);
                         User user5 = new User("marvel_official", "Marvels", " ", "marvels@gmail.com", null, "Multiple",

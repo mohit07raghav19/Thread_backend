@@ -57,7 +57,7 @@ public class PostServiceImpl implements PostService {
             User user2 = userRepo.findByUserName("Slumber_420");
             Post post2 = new Post("post2", user2,
                     "Yes, I am a criminal. My crime is that of curiosity. My crime is that of outsmarting you, something that you will never forgive me for.\n I am a hacker, and this is my manifesto. You may stop this individual, but you can't stop us all… after all, we're all alike.",
-                    "post2.jpg");
+                    "post2.jpeg");
 
             post2.setCreationTime(LocalDateTime.of(2023, 06, 20, 00, 00, 01));
 
@@ -76,7 +76,7 @@ public class PostServiceImpl implements PostService {
             User user5 = userRepo.findByUserName("marvel_official");
             Post post5 = new Post("post5", user5,
                     "At Some Point, We All Have to Choose, Between What the World Wants You to Be, and Who You Are.",
-                    "post5.jpg");
+                    "post5.png");
             post5.setCreationTime(LocalDateTime.of(2021, 01, 01, 01, 00, 00));
 
             User user6 = userRepo.findByUserName("Mohit_lcs32");

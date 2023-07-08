@@ -1,89 +1,101 @@
 # Thread_backend
+
 Backend using Springboot for Thread , a Social Media Platform (Web Application).
+
 ## Requirements
 
 For building and running the application you need:
+
 - [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 - [Maven 4](https://maven.apache.org)
-  
-### Steps to run 
-1. Build the project using ``mvn clean install``
-2. Run using   ``mvn spring-boot:run``
+
+### Steps to run
+
+1. Build the project using `mvn clean install`
+2. Run using `mvn spring-boot:run`
 3. The web application is accessible via localhost:8080
 4. Use username :'admin' and password :"Admin@1234" to login.
 
-### UNAUTHORISED PATHS 
-- "localhost:8080/register"
--  "localhost:8080/getRoles"
--   "localhost:8080/authenticate"
--    "localhost:8080/contactus/create”
+### UNAUTHORISED PATHS
 
-### FOR FILE UPLOAD 
+- "localhost:8080/register"
+- "localhost:8080/getRoles"
+- "localhost:8080/authenticate"
+- "localhost:8080/contactus/create”
+
+### FOR FILE UPLOAD
+
 _**In {RelativePath}/Thread_Db_Connect_personal/src/main/java/com/example/thread/Post/service/PostServiceImpl.java File
 , Create a folder("MyImages") in public dir of React App.
- And Add the Full Path to FOLDER_PATH**_
-  # Controllers and APIs
-  ## 1. User Controller
-  - Create User (All given Four Parameters required )
- ```
+And Add the Full Path to FOLDER_PATH**_
+
+# Controllers and APIs
+
+## 1. User Controller
+
+- Create User (All given Four Parameters required )
+
+```
 Restrictions:
 
- Email = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
-                  * ------------------------
-                 This expression matches email addresses, and checks that they are of the
-                 proper form.
-                 It checks to ensure the top level domain is between 2 and 4 characters long,
-                 but does not check the specific domain against a list (especially since
-                 there are so many of them now).
-                 
+Email = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
+                 * ------------------------
+                This expression matches email addresses, and checks that they are of the
+                proper form.
+                It checks to ensure the top level domain is between 2 and 4 characters long,
+                but does not check the specific domain against a list (especially since
+                there are so many of them now).
+
 
 Password = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}"
-                 * ------------------------
-                 * At least 8 chars
-                 * Contains at least one digit
-                 * Contains at least one lower alpha char and one upper alpha char
-                 * Contains at least one char within a set of special chars (@#%$^ etc.)
-                 * Does not contain space, tab, etc.
+                * ------------------------
+                * At least 8 chars
+                * Contains at least one digit
+                * Contains at least one lower alpha char and one upper alpha char
+                * Contains at least one char within a set of special chars (@#%$^ etc.)
+                * Does not contain space, tab, etc.
 
 
 UserName = "[A-Za-z0-9_]+" = Alphabets Only + "_"
 
 UserFullName = "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"= Alphabets Only + "_"+ Space
- 
+
 Post : localhost:8080/register
 
 Request Body
 
 {"userName":"demo","userFullName":"Demo User","userPassword":"Demo@1234","email":"Demo@gmail.com"}
 
-RESPONSE 
+RESPONSE
 
 {
-    "status": "success",
-    "message": "User created!",
-    "data": [
-        {
-            "userName": "demo",
-            "userFullName": "Demo User",
-            "userPassword": "$2a$10$PK8Qa/zh/SkBkJrEYZsqqu5KwJl1dAPZBHjiArI.C6NYl.bIpGxwS",
-            "email": "Demo@gmail.com",
-            "city": null,
-            "gender": null,
-            "profileImage": "defaultProfile.jpg",
-            "role": [
-                {
-                    "roleName": "User",
-                    "roleDescription": "Default role for newly created record"
-                }
-            ],
-            "connector": null,
-            "dob": null
-        }
-    ],
-    "count": 1
+   "status": "success",
+   "message": "User created!",
+   "data": [
+       {
+           "userName": "demo",
+           "userFullName": "Demo User",
+           "userPassword": "$2a$10$PK8Qa/zh/SkBkJrEYZsqqu5KwJl1dAPZBHjiArI.C6NYl.bIpGxwS",
+           "email": "Demo@gmail.com",
+           "city": null,
+           "gender": null,
+           "profileImage": "defaultProfile.jpg",
+           "role": [
+               {
+                   "roleName": "User",
+                   "roleDescription": "Default role for newly created record"
+               }
+           ],
+           "connector": null,
+           "dob": null
+       }
+   ],
+   "count": 1
 }
 ```
+
 - Authenticate User (JWT Controller)
+
 ```
 User connector are made null explicitily to avoid loop of connections
 Post : localhost:8080/authenticate
@@ -95,7 +107,7 @@ Request Body
     "userPassword":"Demo@1234"
 }
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
@@ -125,9 +137,11 @@ RESPONSE
     "count": 1
 }
 ```
+
 - Update User Info
+
 ```
-RESTRICTIONS 
+RESTRICTIONS
 // ! UserEmail & Username can't be changed.
 UserName
 UserPassword
@@ -146,13 +160,13 @@ Headers (demo)
 
 Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZW1vIiwiZXhwIjoxNjg3NzU1MDI5LCJpYXQiOjE2ODc3MzcwMjl9.tU_jOWIEZhbFAwS93ln9SAW13KcWZCkpzz3DVGeqbZvR5Zr8PXvW3p-37mdrwgvhR0cZTABvP5FxCcA96ht9nA
 
-Request FORM DATA 
+Request FORM DATA
 
 user:{ "userName": "demo","userFullName":"Demo SINGH","email": "Demo@gmail.com","userPassword":"Demo@1234","city":"Lucknow","gender":"Male","dob":"07/03/2004"}
 
 file:java.jpg
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
@@ -179,13 +193,15 @@ RESPONSE
     "count": 1
 }
 ```
+
 - getUserByDetails for forgot password
+
 ```
-RESTRICTIONS 
+RESTRICTIONS
 
 Get : localhost:8080/get/user
 
-Headers 
+Headers
 
 Request Body
 
@@ -195,7 +211,7 @@ Request Body
     "email":"lcs2022032@iiitl.ac.in"
 }
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
@@ -222,15 +238,17 @@ RESPONSE
     "count": 1
 }
 ```
-- Change Password 
-```
-RESTRICTIONS 
 
-UserPassword 
+- Change Password
+
+```
+RESTRICTIONS
+
+UserPassword
 
 Post : localhost:8080/changepassword
 
-Headers 
+Headers
 
 Request Body
 
@@ -241,7 +259,7 @@ Request Body
     "userPassword":"Mo@123456"
 }
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
@@ -268,8 +286,11 @@ RESPONSE
     "count": 1
 }
 ```
+
 ## 2. POST Controller
+
 - Create Post
+
 ```
 Post : localhost:8080/posts/
 
@@ -277,12 +298,12 @@ Headers (demo)
 
 Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZW1vIiwiZXhwIjoxNjg3NzU1MDI5LCJpYXQiOjE2ODc3MzcwMjl9.tU_jOWIEZhbFAwS93ln9SAW13KcWZCkpzz3DVGeqbZvR5Zr8PXvW3p-37mdrwgvhR0cZTABvP5FxCcA96ht9nA
 
-Request FORM DATA 
+Request FORM DATA
 
 post:{"description":"Demo post description"}
 file: post_demo.jpg
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
@@ -303,7 +324,9 @@ RESPONSE
     "count": 1
 }
 ```
+
 - Get Post Feed
+
 ```
 // ! Get All Posts except Logged in User
 Get : localhost:8080/posts/feed
@@ -314,7 +337,7 @@ Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZW1vIiwiZXhwIjoxNjg3NzU1MD
 
 Request
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
@@ -398,7 +421,7 @@ RESPONSE
             "userFullName": "Praveen Kumar",
             "profileImage": "user2.jpg",
             "description": "Yes, I am a criminal. My crime is that of curiosity. My crime is that of outsmarting you, something that you will never forgive me for.\n I am a hacker, and this is my manifesto. You may stop this individual, but you can't stop us all… after all, we're all alike.",
-            "postImage": "post2.jpg",
+            "postImage": "post2.jpeg",
             "creationTime": "6 days ago",
             "likes": 4,
             "comments": [
@@ -428,7 +451,7 @@ RESPONSE
             "postId": "post4",
             "userName": "asur_official",
             "userFullName": "Mukti Giver",
-            "profileImage": "user4.jpg",
+            "profileImage": "user4.jpeg",
             "description": "Limitless Darkness Is The Ultimate Truth, Attachment Is Suffering,Kindness Is Cruelty And The End Itself Is The Beginning.",
             "postImage": "post4.jpg",
             "creationTime": "1 months ago",
@@ -504,7 +527,7 @@ RESPONSE
             "userFullName": "Marvels",
             "profileImage": "user5.jpg",
             "description": "At Some Point, We All Have to Choose, Between What the World Wants You to Be, and Who You Are.",
-            "postImage": "post5.jpg",
+            "postImage": "post5.png",
             "creationTime": "2 years ago",
             "likes": 0,
             "comments": [
@@ -513,7 +536,7 @@ RESPONSE
                     "commentText": "Ya..well said",
                     "userName": "asur_official",
                     "userFullName": "Mukti Giver",
-                    "profileImage": "user4.jpg",
+                    "profileImage": "user4.jpeg",
                     "postId": "post5",
                     "creationTime": "2 min ago"
                 }
@@ -545,7 +568,9 @@ RESPONSE
     "count": 14
 }
 ```
+
 - Get Post By UserName
+
 ```
 Get : localhost:8080/posts/user/Harshit_lcs21
 // posts/user/{userName}
@@ -554,10 +579,10 @@ Headers (demo)
 
 Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZW1vIiwiZXhwIjoxNjg3NzU1MDI5LCJpYXQiOjE2ODc3MzcwMjl9.tU_jOWIEZhbFAwS93ln9SAW13KcWZCkpzz3DVGeqbZvR5Zr8PXvW3p-37mdrwgvhR0cZTABvP5FxCcA96ht9nA
 
-Request 
+Request
 
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
@@ -600,7 +625,9 @@ RESPONSE
     "count": 3
 }
 ```
+
 - **ONLY THE Owner USER** i.e Logged In User Can get and delete His postById.
+
 ```
 Get : localhost:8080/posts/demo___QGS43
 // posts/{postId}
@@ -609,10 +636,10 @@ Headers (demo)
 
 Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZW1vIiwiZXhwIjoxNjg3NzU1MDI5LCJpYXQiOjE2ODc3MzcwMjl9.tU_jOWIEZhbFAwS93ln9SAW13KcWZCkpzz3DVGeqbZvR5Zr8PXvW3p-37mdrwgvhR0cZTABvP5FxCcA96ht9nA
 
-Request 
+Request
 
 
-RESPONSE 
+RESPONSE
 {
     "status": "success",
     "message": "Post fetched Successfully",
@@ -646,7 +673,9 @@ RESPONSE
     "count": 1
 }
 ```
+
 - Delete Post by Id
+
 ```
 Delete : localhost:8080/posts/demo___QGS43
 // posts/{postId}
@@ -655,10 +684,10 @@ Headers (demo)
 
 Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZW1vIiwiZXhwIjoxNjg3NzU1MDI5LCJpYXQiOjE2ODc3MzcwMjl9.tU_jOWIEZhbFAwS93ln9SAW13KcWZCkpzz3DVGeqbZvR5Zr8PXvW3p-37mdrwgvhR0cZTABvP5FxCcA96ht9nA
 
-Request 
+Request
 
 
-RESPONSE 
+RESPONSE
 {
     "status": "success",
     "message": "Post with ID demo___QGS43 has been deleted.",
@@ -666,8 +695,11 @@ RESPONSE
     "count": 0
 }
 ```
+
 ## 3. LIKE CONTROLLER
+
 - Like the Post
+
 ```
 post : localhost:8080/like/post0
 // like/{postId}
@@ -676,9 +708,9 @@ Headers (demo)
 
 Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZW1vIiwiZXhwIjoxNjg3NzU1MDI5LCJpYXQiOjE2ODc3MzcwMjl9.tU_jOWIEZhbFAwS93ln9SAW13KcWZCkpzz3DVGeqbZvR5Zr8PXvW3p-37mdrwgvhR0cZTABvP5FxCcA96ht9nA
 
-Request 
+Request
 
-RESPONSE 
+RESPONSE
 {
     "status": "success",
     "message": "Liked the Post",
@@ -688,7 +720,9 @@ RESPONSE
     "count": 1
 }
 ```
+
 - UnLike the Post
+
 ```
 Delete : localhost:8080/unlike/post0
 // unlike/{postId}
@@ -697,10 +731,10 @@ Headers (demo)
 
 Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZW1vIiwiZXhwIjoxNjg3NzU1MDI5LCJpYXQiOjE2ODc3MzcwMjl9.tU_jOWIEZhbFAwS93ln9SAW13KcWZCkpzz3DVGeqbZvR5Zr8PXvW3p-37mdrwgvhR0cZTABvP5FxCcA96ht9nA
 
-Request 
+Request
 
 
-RESPONSE 
+RESPONSE
 {
     "status": "success",
     "message": "UnLiked the Post",
@@ -710,7 +744,9 @@ RESPONSE
     "count": 1
 }
 ```
-- Likes On A Post  by PostId
+
+- Likes On A Post by PostId
+
 ```
 Get : localhost:8080/likes/post/post2
 // likes/post/{postId}
@@ -719,10 +755,10 @@ Headers (demo)
 
 Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZW1vIiwiZXhwIjoxNjg3NzU1MDI5LCJpYXQiOjE2ODc3MzcwMjl9.tU_jOWIEZhbFAwS93ln9SAW13KcWZCkpzz3DVGeqbZvR5Zr8PXvW3p-37mdrwgvhR0cZTABvP5FxCcA96ht9nA
 
-Request 
+Request
 
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
@@ -733,7 +769,9 @@ RESPONSE
     "count": 1
 }
 ```
+
 - User Liked Posts by Auth
+
 ```
 Get : localhost:8080/likes/user
 // likes/user
@@ -742,10 +780,10 @@ Headers (demo)
 
 Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZW1vIiwiZXhwIjoxNjg3NzU1MDI5LCJpYXQiOjE2ODc3MzcwMjl9.tU_jOWIEZhbFAwS93ln9SAW13KcWZCkpzz3DVGeqbZvR5Zr8PXvW3p-37mdrwgvhR0cZTABvP5FxCcA96ht9nA
 
-Request 
+Request
 
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
@@ -755,7 +793,7 @@ RESPONSE
 }
 
 
-Getting posts liked by User (money_heist) with Appropriate Auth Token 
+Getting posts liked by User (money_heist) with Appropriate Auth Token
 
 {
     "status": "success",
@@ -815,7 +853,7 @@ Getting posts liked by User (money_heist) with Appropriate Auth Token
             "postId": "post4",
             "userName": "asur_official",
             "userFullName": "Mukti Giver",
-            "profileImage": "user4.jpg",
+            "profileImage": "user4.jpeg",
             "description": "Limitless Darkness Is The Ultimate Truth, Attachment Is Suffering,Kindness Is Cruelty And The End Itself Is The Beginning.",
             "postImage": "post4.jpg",
             "creationTime": "1 months ago",
@@ -837,8 +875,11 @@ Getting posts liked by User (money_heist) with Appropriate Auth Token
     "count": 4
 }
 ```
-## 4. COMMENT Controller 
+
+## 4. COMMENT Controller
+
 - Create A Comment At Post
+
 ```
 Post : localhost:8080/post/post0/comment
 // /post/{postId}/comment
@@ -853,7 +894,7 @@ Request Body
     "commentText":"i am demo user. this is demo comment. "
 }
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
@@ -899,7 +940,9 @@ RESPONSE
     "count": 4
 }
 ```
+
 - Get Comments on Post
+
 ```
 Get :localhost:8080/post/post2/comment
 // /post/{postId}/comment
@@ -908,10 +951,10 @@ Headers (demo)
 
 Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZW1vIiwiZXhwIjoxNjg3NzU1MDI5LCJpYXQiOjE2ODc3MzcwMjl9.tU_jOWIEZhbFAwS93ln9SAW13KcWZCkpzz3DVGeqbZvR5Zr8PXvW3p-37mdrwgvhR0cZTABvP5FxCcA96ht9nA
 
-Request 
+Request
 
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
@@ -930,7 +973,9 @@ RESPONSE
     "count": 1
 }
 ```
+
 - Get Comment By ID only by owner
+
 ```
 Get :localhost:8080/comment/56
 // /comment/{comment_id}
@@ -939,10 +984,10 @@ Headers (demo)
 
 Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZW1vIiwiZXhwIjoxNjg3NzU1MDI5LCJpYXQiOjE2ODc3MzcwMjl9.tU_jOWIEZhbFAwS93ln9SAW13KcWZCkpzz3DVGeqbZvR5Zr8PXvW3p-37mdrwgvhR0cZTABvP5FxCcA96ht9nA
 
-Request 
+Request
 
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
@@ -961,7 +1006,9 @@ RESPONSE
     "count": 1
 }
 ```
+
 - Delete Comment By ID only by owner
+
 ```
 Delete :localhost:8080/comment/56
 // /comment/{comment_id}
@@ -970,10 +1017,10 @@ Headers (demo)
 
 Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZW1vIiwiZXhwIjoxNjg3NzU1MDI5LCJpYXQiOjE2ODc3MzcwMjl9.tU_jOWIEZhbFAwS93ln9SAW13KcWZCkpzz3DVGeqbZvR5Zr8PXvW3p-37mdrwgvhR0cZTABvP5FxCcA96ht9nA
 
-Request 
+Request
 
 
-RESPONSE 
+RESPONSE
 {
     "status": "success",
     "message": "Comment deleted",
@@ -1009,8 +1056,11 @@ RESPONSE
     "count": 3
 }
 ```
+
 ## 5. CONNECTIONS Controller
+
 - Follow a User
+
 ```
 Post : localhost:8080/follow/user/admin
 // follow/user/{userName}
@@ -1020,10 +1070,10 @@ Headers (demo)
 Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZW1vIiwiZXhwIjoxNjg3NzU1MDI5LCJpYXQiOjE2ODc3MzcwMjl9.tU_jOWIEZhbFAwS93ln9SAW13KcWZCkpzz3DVGeqbZvR5Zr8PXvW3p-37mdrwgvhR0cZTABvP5FxCcA96ht9nA
 
 
-Request 
+Request
 
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
@@ -1038,7 +1088,9 @@ RESPONSE
     "count": 1
 }
 ```
+
 - Unfollow A User
+
 ```
 Delete : localhost:8080/unfollow/user/admin
 // unfollow/user/{userName}
@@ -1048,10 +1100,10 @@ Headers (demo)
 Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZW1vIiwiZXhwIjoxNjg3NzU1MDI5LCJpYXQiOjE2ODc3MzcwMjl9.tU_jOWIEZhbFAwS93ln9SAW13KcWZCkpzz3DVGeqbZvR5Zr8PXvW3p-37mdrwgvhR0cZTABvP5FxCcA96ht9nA
 
 
-Request FORM DATA 
+Request FORM DATA
 
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
@@ -1060,7 +1112,9 @@ RESPONSE
     "count": 0
 }
 ```
+
 - GET All Connections
+
 ```
 Get : localhost:8080/connections
 
@@ -1069,10 +1123,10 @@ Headers (karthik_bannu)
 
 Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrYXJ0aGlrX2Jhbm51IiwiZXhwIjoxNjg3NzU3NjI3LCJpYXQiOjE2ODc3Mzk2Mjd9._wBXfotQF4-U5UDCn1kyvx8re2J1ZpQ8WolXKLnf4iVOWjPvJG5YGmSapO9MCtmlhzumoYAOIBrdY1jBUYTiDg
 
-Request 
+Request
 
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
@@ -1092,7 +1146,9 @@ RESPONSE
     "count": 2
 }
 ```
+
 - GET All NON-Connections
+
 ```
 Get : localhost:8080/nonconnections
 
@@ -1104,7 +1160,7 @@ Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrYXJ0aGlrX2Jhbm51IiwiZXhwIj
 Request
 
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
@@ -1118,7 +1174,7 @@ RESPONSE
         {
             "userName": "asur_official",
             "userFullName": "Mukti Giver",
-            "profileImage": "user4.jpg"
+            "profileImage": "user4.jpeg"
         },
         {
             "userName": "axios_iiitl",
@@ -1179,12 +1235,15 @@ RESPONSE
     "count": 13
 }
 ```
+
 ## 6. CONTACTUSQUERY Controller
+
 - Create Query
+
 ```
 Post : localhost:8080/contactus/create
 
-Headers 
+Headers
 
 
 Request Body
@@ -1195,7 +1254,7 @@ Request Body
     "message":"nothing to be asked "
 }
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
@@ -1213,8 +1272,11 @@ RESPONSE
     "count": 1
 }
 ```
+
 **OTHER CONTACT US APIS BY ONLY ADMIN**
+
 - Set As Answered Query by QueryId
+
 ```
 Post : localhost:8080/contactus/setasanswered/46
 //! /setasanswered/{queryId}
@@ -1224,10 +1286,10 @@ Headers (admin)
 Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY4Nzc1NjYzNSwiaWF0IjoxNjg3NzM4NjM1fQ.YnaaPKIv1W_ixGAizopm7rLEnh9_fmJcdwVWkp5YlvY7_p0XgpfTyGvHegD6ASn0CSeeyHBTfg3xuVpU4oodYg
 
 
-Request 
+Request
 
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
@@ -1245,11 +1307,13 @@ RESPONSE
     "count": 1
 }
 ```
+
 - Get All Queries
+
 ```
 Get : localhost:8080/contactus/all
 
-RESTRICTIONS 
+RESTRICTIONS
 
 
 Headers (admin)
@@ -1257,10 +1321,10 @@ Headers (admin)
 Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY4Nzc1NjYzNSwiaWF0IjoxNjg3NzM4NjM1fQ.YnaaPKIv1W_ixGAizopm7rLEnh9_fmJcdwVWkp5YlvY7_p0XgpfTyGvHegD6ASn0CSeeyHBTfg3xuVpU4oodYg
 
 
-Request 
+Request
 
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
@@ -1302,7 +1366,9 @@ RESPONSE
     "count": 4
 }
 ```
+
 - Get Answered Queries
+
 ```
 Get : localhost:8080/contactus/answered
 
@@ -1311,10 +1377,10 @@ Headers (admin)
 
 Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY4Nzc1NjYzNSwiaWF0IjoxNjg3NzM4NjM1fQ.YnaaPKIv1W_ixGAizopm7rLEnh9_fmJcdwVWkp5YlvY7_p0XgpfTyGvHegD6ASn0CSeeyHBTfg3xuVpU4oodYg
 
-Request 
+Request
 
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
@@ -1340,7 +1406,9 @@ RESPONSE
     "count": 2
 }
 ```
+
 - Get UnAnswered Queries
+
 ```
 Get : localhost:8080/contactus/unanswered
 
@@ -1350,10 +1418,10 @@ Headers (admin)
 Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY4Nzc1NjYzNSwiaWF0IjoxNjg3NzM4NjM1fQ.YnaaPKIv1W_ixGAizopm7rLEnh9_fmJcdwVWkp5YlvY7_p0XgpfTyGvHegD6ASn0CSeeyHBTfg3xuVpU4oodYg
 
 
-Request 
+Request
 
 
-RESPONSE 
+RESPONSE
 
 {
     "status": "success",
