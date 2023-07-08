@@ -8,7 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+<<<<<<< HEAD
 import com.example.thread.User.service.UserService;
+=======
+import com.example.thread.User.model.User;
+import com.example.thread.User.repo.UserRepo;
+>>>>>>> f495601 (Added Role in JwtToken)
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,7 +25,11 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
     @Autowired
+<<<<<<< HEAD
     private UserService userService;
+=======
+    private UserRepo userRepo;
+>>>>>>> f495601 (Added Role in JwtToken)
 
     private static final String SECRET_KEY = "mohit_raghav_lcs32";
 
@@ -56,14 +65,28 @@ public class JwtUtil {
     public String generateToken(UserDetails userDetails) {
 
         Map<String, Object> claims = new HashMap<>();
+<<<<<<< HEAD
 
+=======
+        User user = userRepo.findByUserName(userDetails.getUsername());
+>>>>>>> f495601 (Added Role in JwtToken)
         // Token Validity = 18 sec
         // EXpiration = 5 hrs
         List<String> roles = new ArrayList<>();
         userDetails.getAuthorities().forEach(r -> {
             roles.add(new String(r.getAuthority()));
         });
+<<<<<<< HEAD
         claims.put("roles", roles);
+=======
+        String userProfile = user.getProfileImage();
+        String userName = user.getUserName();
+        String userFullName = user.getUserFullName();
+        claims.put("roles", roles);
+        claims.put("userName", userName);
+        claims.put("userFullName", userFullName);
+        claims.put("userProfileImage", userProfile);
+>>>>>>> f495601 (Added Role in JwtToken)
 
         return Jwts.builder()
                 .setClaims(claims)
