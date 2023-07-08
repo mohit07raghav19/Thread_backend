@@ -8,7 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.example.thread.User.service.UserService;
+
+
+
+import com.example.thread.User.model.User;
+import com.example.thread.User.repo.UserRepo;
+
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,7 +25,10 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
     @Autowired
-    private UserService userService;
+
+
+    private UserRepo userRepo;
+
 
     private static final String SECRET_KEY = "mohit_raghav_lcs32";
 
@@ -57,13 +65,24 @@ public class JwtUtil {
 
         Map<String, Object> claims = new HashMap<>();
 
+        User user = userRepo.findByUserName(userDetails.getUsername());
         // Token Validity = 18 sec
         // EXpiration = 5 hrs
         List<String> roles = new ArrayList<>();
         userDetails.getAuthorities().forEach(r -> {
             roles.add(new String(r.getAuthority()));
         });
+
+
+
+        String userProfile = user.getProfileImage();
+        String userName = user.getUserName();
+        String userFullName = user.getUserFullName();
         claims.put("roles", roles);
+        claims.put("userName", userName);
+        claims.put("userFullName", userFullName);
+        claims.put("userProfileImage", userProfile);
+
 
         return Jwts.builder()
                 .setClaims(claims)
