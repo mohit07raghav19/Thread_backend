@@ -17,15 +17,15 @@ export const HomePageConnections = () => {
     let non5=nonConnections.filter((val,id)=>{return id<6});
   return (
     <section className="relative">
-      <section className="absolute right-6 py-6 w-1/5 min-h-screen .overflow-auto .overscroll-auto">
-        <span className="block text-black-200 text-2xl  font-semibold mb-4">
+      <section className="absolute right-6 pt-8 w-1/5 min-h-screen .overflow-auto .overscroll-auto">
+        <span className="block pb-6 text-black-200 text-2xl  font-semibold mb-4">
           New Connections
         </span>
         <ul className="grid gap-2 sm:grid-cols-1 md:grid-cols-1">
           {non5.map((item, id) => {
             return (
               <li key={id}>
-                <div className="py-4 px-4 border">
+                <div className="py-4 px-4 border-2 rounded-xl">
                   <div className="flex items-center justify-between gap-x-4">
                     <div className="flex gap-x-2 items-center">
                       <img
