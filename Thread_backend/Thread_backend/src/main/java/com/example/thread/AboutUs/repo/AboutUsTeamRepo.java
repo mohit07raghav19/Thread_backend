@@ -9,11 +9,7 @@ import com.example.thread.AboutUs.model.AboutUsTeam;
 
 public interface AboutUsTeamRepo extends JpaRepository<AboutUsTeam, Integer> {
     
-
     @Query(value = "select * from about_us_team", nativeQuery = true)
-    public List<AboutUsTeam> findAll();
-    
-
-   
+    public List<AboutUsTeam> findAll(); 
 
 }

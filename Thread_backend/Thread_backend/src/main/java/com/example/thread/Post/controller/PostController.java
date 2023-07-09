@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.thread.ApiResponse.APIResponse;
+import com.example.thread.Likes.repo.LikeRepo;
 import com.example.thread.Post.model.Post;
 import com.example.thread.Post.model.PostResponse;
 import com.example.thread.Post.repo.PostRepo;
@@ -40,6 +41,9 @@ public class PostController {
     private PostRepo postRepo;
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private LikeRepo likeRepo;
+
     private APIResponse apiResponse;
 
     @GetMapping("posts/feed")
@@ -48,7 +52,16 @@ public class PostController {
         List<PostResponse> posts;
         Vector<PostResponse> vec = new Vector<>();
         try {
+            User LoggedInUser = userRepo.findByUserName(authentication.getName());
+            String loggedUserName = LoggedInUser.getUserName();
             posts = this.postService.getAllPostsFeed(authentication);
+            for (PostResponse p : posts) {
+                String post_id = p.getPostId();
+                if (likeRepo.isLikedByUser(loggedUserName, post_id) == null)
+                    p.setIsliked(0);
+                else
+                    p.setIsliked(1);
+            }
             vec.addAll(posts);
             apiResponse.setMessage("All Posts fetched Successfully");
             apiResponse.setData(vec);
@@ -70,6 +83,15 @@ public class PostController {
         Vector<PostResponse> vec = new Vector<>();
         try {
             posts = this.postService.getAllPostsByUser(authentication, userName);
+            User LoggedInUser = userRepo.findByUserName(authentication.getName());
+            String loggedUserName = LoggedInUser.getUserName();
+            for (PostResponse p : posts) {
+                String post_id = p.getPostId();
+                if (likeRepo.isLikedByUser(loggedUserName, post_id) == null)
+                    p.setIsliked(0);
+                else
+                    p.setIsliked(1);
+            }
             vec.addAll(posts);
             apiResponse.setMessage("All Posts of a User fetched Successfully");
             apiResponse.setData(vec);
@@ -92,8 +114,17 @@ public class PostController {
             post = this.postService.getPostById(authentication, postId);
             if (post != null) {
                 apiResponse = new APIResponse();
-                Vector<Post> vec = new Vector<>();
-                vec.add(post);
+                PostResponse pResp = new PostResponse(post);
+                User LoggedInUser = userRepo.findByUserName(authentication.getName());
+                String loggedUserName = LoggedInUser.getUserName();
+                String post_id = pResp.getPostId();
+                if (likeRepo.isLikedByUser(loggedUserName, post_id) == null)
+                    pResp.setIsliked(0);
+                else
+                    pResp.setIsliked(1);
+                Vector<PostResponse> vec = new Vector<>();
+
+                vec.add(pResp);
                 apiResponse.setMessage("Post fetched Successfully");
                 apiResponse.setData(vec);
                 apiResponse.setStatus("success");
@@ -105,7 +136,9 @@ public class PostController {
                 apiResponse.setStatus("fail");
                 apiResponse.setCount(0);
             }
-        } catch (Exception e) {
+        } catch (
+
+        Exception e) {
             apiResponse.setMessage(e.getMessage());
             apiResponse.setData(null);
             apiResponse.setStatus("fail");
@@ -154,8 +187,16 @@ public class PostController {
             if (LoggedInUser == null) {
                 throw new Exception("user not authorized");
             }
+            String loggedUserName = LoggedInUser.getUserName();
             Post post2 = objectMapper.readValue(post, Post.class);
             List<PostResponse> posts = this.postService.addPost(authentication, post2, file);
+            for (PostResponse p : posts) {
+                String post_id = p.getPostId();
+                if (likeRepo.isLikedByUser(loggedUserName, post_id) == null)
+                    p.setIsliked(0);
+                else
+                    p.setIsliked(1);
+            }
             vec.addAll(posts);
             apiResponse.setMessage("Post Added Successfully");
             apiResponse.setData(vec);
@@ -178,6 +219,14 @@ public class PostController {
                     List<PostResponse> postResponse = new ArrayList<PostResponse>();
                     for (Post p : posts) {
                         postResponse.add(new PostResponse(p));
+                    }
+                    String loggedUserName = LoggedInUser.getUserName();
+                    for (PostResponse p : postResponse) {
+                        String post_id = p.getPostId();
+                        if (likeRepo.isLikedByUser(loggedUserName, post_id) == null)
+                            p.setIsliked(0);
+                        else
+                            p.setIsliked(1);
                     }
                     apiResponse.setMessage("Post Not Added due to Error " + e.getMessage());
                     apiResponse.setData(vec);
