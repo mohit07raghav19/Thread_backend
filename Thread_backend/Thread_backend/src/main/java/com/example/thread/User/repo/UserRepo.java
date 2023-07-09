@@ -19,8 +19,8 @@ public interface UserRepo extends JpaRepository<User, String> {
         User findByUserName(String userName);
 
         @Query(value = "select * from user where "
-                        + "( email like :email"
-                        + " and securityq like :securityq )", nativeQuery = true)
+                        + "( email = ?1"
+                        + " and securityq = ?2 )", nativeQuery = true)
         User findByUserDetails(@Param("email") String email, @Param("securityq") String securityq);
 
         @Query(value = "select * from user where user_name IN "

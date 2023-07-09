@@ -43,6 +43,7 @@ public class JwtService implements UserDetailsService {
         User user = userRepo.findByUserName(userName);
         JwtResponse res = new JwtResponse(user, newGeneratedToken);
         res.getUser().setConnector(null);
+        res.getUser().setLiked(null);
         return res;
     }
 
