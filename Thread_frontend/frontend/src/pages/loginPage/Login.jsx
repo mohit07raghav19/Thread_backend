@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import ForgetPassword from './ForgetPassword'
 export default function Login() {
   return (
     <main className="w-full flex">
@@ -71,6 +72,7 @@ export default function Login() {
                         >
                             Log in
                         </button>
+                        <ForgetPassword />
                         <p className="">Don't have an account? <Link className="font-medium text-indigo-600 hover:text-indigo-500" to="/signup">Sign up</Link></p>
                     </form>
                 </div>
