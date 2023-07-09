@@ -17,7 +17,7 @@ const ProfileDropDown = (props) => {
         const handleDropDown = (e) => {
             if (!profileRef.current.contains(e.target)) setState(false)
         }
-        document.addEventListener('click', handleDropDown)
+        // document.addEventListener('click', handleDropDown)
     }, [])
 
     return (
