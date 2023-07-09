@@ -4,7 +4,7 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import axios from "axios";
 import { JwtDecoder } from "../../Utils/JwtDecoder";
 
-export const HomePagePosts = () => {
+export const HomePagePosts = ({nonConnections}) => {
   const [posts, setPosts] = useState([]);
   const [matchArray, setMatchArray] = useState(posts);
   const [noMatch, setNoMatch] = useState(null);
@@ -148,7 +148,7 @@ export const HomePagePosts = () => {
         setPosts(res.data.data);
         setMatchArray(res.data.data);
       });
-  }, []);
+  }, [nonConnections]);
 
   return (
     <section className="relative ">
@@ -186,8 +186,11 @@ export const HomePagePosts = () => {
                   No match found
                 </span>
               )}
+              {matchArray.length==0 && <span className="block text-gray-700 text-sm font-semibold">
+                  You have no connections.Please Connect to Users.
+                </span>}
               {noMatch == null &&
-                matchArray.length &&
+                matchArray.length>0 &&
                 matchArray.map((item, idx) => (
                   <li key={idx} className="border-2 p-4 shadow-md rounded-md">
                     <div className="py-4 px-4">

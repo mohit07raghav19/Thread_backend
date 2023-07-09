@@ -3,21 +3,8 @@ import React, { useState, useEffect } from "react";
 import "./HomePage.css"
 
 const connections = ["E", "we", "e"];
-export const HomePageConnections = () => {
-  const [nonConnections, setNonConnections] = useState([]);
-  const Token = sessionStorage.getItem("jwtToken");
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/nonconnections", {
-        headers: {
-          Authorization: `Bearer ${Token}`,
-        },
-      })
-      .then((res) => {
-        // console.log(res);
-        setNonConnections(res.data.data);
-      });
-  }, []);
+export const HomePageConnections = ({nonConnections,setNonConnections,Token}) => {
+  
   function handleconnections(e, name) {
     let data = {};
     axios.post(`http://localhost:8080/follow/user/${name}`, data, {
