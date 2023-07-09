@@ -42,7 +42,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/register", "/getRoles", "/authenticate", "/contactus/create", "/get/user",
-                        "/changepassword")
+                        "/changepassword", "/aboutus/getTeam")
                 .permitAll()
                 .antMatchers(HttpHeaders.ALLOW).permitAll()
                 .anyRequest().authenticated()
