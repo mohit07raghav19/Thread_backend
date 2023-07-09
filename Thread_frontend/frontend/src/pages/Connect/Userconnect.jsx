@@ -53,7 +53,12 @@ function Userconnect(){
           Your Connections
         </h3>
       </div>
-      <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
+      <div>
+        {connection.length==0 ? <span className="block mt-12 pb-6 text-gray-500 text-xl  font-semibold mb-4">
+        No Connections to Show. Please Add New Connections
+        </span>:""}
+      {
+        connection.length>0 &&
         <table className="w-full table-auto text-sm text-left">
           <thead className="bg-gray-50 text-gray-600 font-medium border-b">
             <tr>
@@ -92,7 +97,7 @@ function Userconnect(){
               </tr>
             ))}
           </tbody>
-        </table>
+        </table>}
       </div>
     </div>
   );

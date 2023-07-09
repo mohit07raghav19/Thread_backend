@@ -1,3 +1,4 @@
+import axios from "axios";
 import Footer from "../../components/Footer";
 import UserNavBar from "../../components/UserNavBar";
 
@@ -8,6 +9,35 @@ export default function Contactus() {
     "web development",
     "SEO",
   ];
+  function handlequery() {
+    let nm = document.getElementById("nm").value;
+    let em = document.getElementById("em").value;
+    let sm = document.getElementById("sm").value;
+    let mm = document.getElementById("mm").value;
+    let myfm = document.getElementById("myfm");
+    try {
+      axios
+        .post("http://localhost:8080/contactus/create", {
+          "name":nm,
+          "email":em,
+          "subject":sm,
+          "message":mm
+          }
+          )
+        .then((res) => {
+          console.log(res);
+          if (res.data.status == "fail") {
+            throw new Error("Incorrect Password");
+          }
+          myfm.reset();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <div>
@@ -30,7 +60,9 @@ export default function Contactus() {
               </p>
             </div>
             <form
-              onSubmit={(e) => e.preventDefault()}
+            id="myfm"
+              onSubmit={(e) => {e.preventDefault();
+                handlequery()}}
               className="space-y-5 mt-12 lg:pb-12"
             >
               <div>
@@ -38,6 +70,7 @@ export default function Contactus() {
                 <input
                   type="text"
                   required
+                  id="nm"
                   name="name"
                   className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-gray-800 shadow-sm rounded-lg"
                 />
@@ -46,6 +79,7 @@ export default function Contactus() {
                 <label className="font-medium">Email</label>
                 <input
                   type="email"
+                  id="em"
                   required
                   name="email"
                   className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-gray-800 shadow-sm rounded-lg"
@@ -55,6 +89,7 @@ export default function Contactus() {
                 <label className="font-medium">Subject</label>
                 <input
                   type="text"
+                  id="sm"
                   required
                   name="subject"
                   className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-gray-800 shadow-sm rounded-lg"
@@ -64,6 +99,7 @@ export default function Contactus() {
                 <label className="font-medium">Message</label>
                 <textarea
                   required
+                  id="mm"
                   className="w-full mt-2 h-36 px-3 py-2 resize-none appearance-none bg-transparent outline-none border focus:border-gray-800 shadow-sm rounded-lg"
                   name="message"
                 ></textarea>

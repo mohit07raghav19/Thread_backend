@@ -14,43 +14,42 @@ export function loader({ request }) {
   if (pathname) {
     // sessionStorage.removeItem("jwtToken");
     console.log("logged out");
-}
-return request;
+  }
+  return request;
 }
 
 export default function Login() {
-    useEffect((e)=>{
-        if(sessionStorage.getItem("jwtToken")){
-            sessionStorage.removeItem("jwtToken");
-        }
-    },[])
-    const navigate = useNavigate();
-    function handleLogin() {
-      const userId = document.getElementById("uid").value;
-      const password = document.getElementById("upas").value;
-      try {
-        axios
-          .post("http://localhost:8080/authenticate", {
-            userName: userId,
-            userPassword: password,
-          })
-          .then((res) => {
-            console.log(res);
-            if (res.data.status == "fail") {
-              throw new Error("Incorrect Password");
-            }
-            const Token = res.data.data[0].jwtToken;
-            sessionStorage.setItem("jwtToken", Token);
-            navigate("/home");
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      } catch (err) {
-        console.log(err);
-      }
+  useEffect((e) => {
+    if (sessionStorage.getItem("jwtToken")) {
+      sessionStorage.removeItem("jwtToken");
     }
-
+  }, []);
+  const navigate = useNavigate();
+  function handleLogin() {
+    const userId = document.getElementById("uid").value;
+    const password = document.getElementById("upas").value;
+    try {
+      axios
+        .post("http://localhost:8080/authenticate", {
+          userName: userId,
+          userPassword: password,
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.data.status == "fail") {
+            throw new Error("Incorrect Password");
+          }
+          const Token = res.data.data[0].jwtToken;
+          sessionStorage.setItem("jwtToken", Token);
+          navigate("/home");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   // console.log(m);
   return (
