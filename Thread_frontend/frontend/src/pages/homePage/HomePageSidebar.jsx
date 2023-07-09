@@ -1,8 +1,9 @@
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { JwtDecoder } from "../../Utils/JwtDecoder";
 const Sidebar = () => {
   const Token = sessionStorage.getItem("jwtToken");
+  const navigate=useNavigate();
 
   const decoded = JwtDecoder(Token);
 
@@ -65,7 +66,7 @@ const Sidebar = () => {
       ),
     },
     {
-      href: "/profile",
+      href: "/connections",
       name: "Connections",
       icon: (
         <svg
@@ -109,7 +110,7 @@ const Sidebar = () => {
       ),
     },
     {
-      href: "/login",
+      href: "/?message=LogoutSuccessFully",
       name: "Logout",
       icon: (
         <svg

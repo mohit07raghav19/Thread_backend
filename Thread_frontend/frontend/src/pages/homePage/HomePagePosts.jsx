@@ -244,9 +244,9 @@ export const HomePagePosts = ({nonConnections}) => {
                     {item.comments.length > 0 && (
                       <>
                         <span className="block text-gray-700 text-sm font-semibold mt-3">
-                          Comments -
+                          Comments 
                         </span>
-                        <ol className="h-24 overflow-y-scroll ">
+                        <ol className="h-36 overflow-y-scroll ">
                           {item.comments.map((ite, id) => {
                             return (
                               <li key={id}>

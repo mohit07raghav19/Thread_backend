@@ -17,7 +17,6 @@ export const HomePageConnections = ({nonConnections,setNonConnections,Token}) =>
       e.target.innerText="Connected";
       e.target.style.backgroundColor="black";
       e.target.style.color="white";
-      e.target.parentElement.parentElement.style.animationPlayState="running";
       
       setTimeout(() => {
         axios
@@ -30,7 +29,6 @@ export const HomePageConnections = ({nonConnections,setNonConnections,Token}) =>
           // console.log(res);
           setNonConnections(res.data.data);
           e.target.style.backgroundColor="white";
-          e.target.parentElement.parentElement.style.animationPlayState="paused";
           e.target.style.color="black";
           e.target.innerText="Connect";
         });
