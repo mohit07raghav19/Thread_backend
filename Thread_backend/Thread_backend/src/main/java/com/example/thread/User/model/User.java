@@ -25,12 +25,12 @@ public class User {
     private String city;
     @Column(nullable = true, updatable = true)
     private String gender;
-    @Column
-    private String securityq;
     @Column(nullable = true, updatable = true)
     private String DOB;
     @Column(nullable = true, updatable = true)
     private String profileImage = "defaultProfile.jpg";
+    @Column(nullable = true, updatable = true)
+    private String securityq;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "USER_ROLE", joinColumns = {
@@ -54,7 +54,7 @@ public class User {
 
     public User(String userName, String userFullName, String userPassword, String email, String city, String gender,
             String dOB,
-            String profileImage, Set<Role> role) {
+            String profileImage, Set<Role> role, String securityq) {
         this.userName = userName;
         this.userFullName = userFullName;
         this.userPassword = userPassword;
@@ -64,6 +64,7 @@ public class User {
         this.DOB = dOB;
         this.profileImage = profileImage;
         this.role = role;
+        this.securityq = securityq;
     }
 
     public User(String userName, String userFullName, String userPassword, String email, String city, String gender,

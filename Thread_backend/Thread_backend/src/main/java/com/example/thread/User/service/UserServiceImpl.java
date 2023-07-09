@@ -51,46 +51,39 @@ public class UserServiceImpl implements UserService {
 
                         User adminUser = new User("admin", "Admin", null, "admin@gmail.com", "Lucknow", "Male",
                                         "01/01/2000",
-                                        "logo.jpg");
+                                        "logo.jpg", adminRoles, "Thread");
                         adminUser.setUserPassword(getEncodedPassword("Admin@1234"));
-                        adminUser.setRole(adminRoles);
 
                         User adminUser1 = new User("Mohit_lcs32", "Mohit Raghav", null, "lcs2022032@iiitl.ac.in",
                                         "Lucknow",
                                         "Male", "04/03/2004",
                                         "mohit.jpeg");
                         adminUser1.setUserPassword(getEncodedPassword("Mohit@1234"));
-                        adminUser1.setRole(adminRoles);
                         User adminUser2 = new User("Yash_lcs57", "Yash Aggarwal", null, "lcs2022057@iiitl.ac.in",
                                         "Lucknow",
                                         "Male", "01/01/2004",
-                                        "yash.jpeg");
+                                        "yash.jpeg", adminRoles, "Thread");
                         adminUser2.setUserPassword(getEncodedPassword("Yash@1234"));
-                        adminUser2.setRole(adminRoles);
                         User adminUser3 = new User("Umesh_lcs52", "Umesh Singh Verma", null, "lcs2022052@iiitl.ac.in",
                                         "Lucknow",
                                         "Male", "01/01/2004",
-                                        "umesh.jpeg");
+                                        "umesh.jpeg", adminRoles, "Thread");
                         adminUser3.setUserPassword(getEncodedPassword("Umesh@1234"));
-                        adminUser3.setRole(adminRoles);
                         User adminUser4 = new User("Harshit_lcs21", "Harshit Chordiya", null, "lcs2022021@iiitl.ac.in",
                                         "Lucknow",
                                         "Male", "01/01/2004",
-                                        "harshit.jpeg");
+                                        "harshit.jpeg", adminRoles, "Thread");
                         adminUser4.setUserPassword(getEncodedPassword("Harshit@1234"));
-                        adminUser4.setRole(adminRoles);
                         User adminUser5 = new User("Manjeet_lcs29", "Manjeet Kumar", null, "lcs2022029@iiitl.ac.in",
                                         "Lucknow",
                                         "Male", "01/01/2004",
-                                        "man.jpg");
+                                        "man.jpg", adminRoles, "Thread");
                         adminUser5.setUserPassword(getEncodedPassword("Manjeet@1234"));
-                        adminUser5.setRole(adminRoles);
                         User adminUser6 = new User("Sunil_lcs48", "Sunil Tirwal", null, "lcs2022048@iiitl.ac.in",
                                         "Lucknow",
                                         "Male", "01/01/2004",
-                                        "sunil.jpg");
+                                        "sunil.jpg", adminRoles, "Thread");
                         adminUser6.setUserPassword(getEncodedPassword("Sunil@1234"));
-                        adminUser6.setRole(adminRoles);
 
                         userRepo.save(adminUser);
                         userRepo.save(adminUser1);
@@ -101,43 +94,34 @@ public class UserServiceImpl implements UserService {
                         userRepo.save(adminUser6);
                         User user0 = new User("Manish_Rawat", "Manish Rawat", " ", "lcs2022028@iiitl.ac.in", "Dehradun",
                                         "Male",
-                                        "05/02/2003", "user0.jpg");
+                                        "05/02/2003", "user0.jpg", userRoles, "Thread");
                         user0.setUserPassword(getEncodedPassword("Manish@1234"));
-                        user0.setRole(userRoles);
                         User user1 = new User("karthik_bannu", "Karthik Akshaj", " ", "lcs2022036@iiitl.ac.in",
                                         "Dehradun",
                                         "Male",
-                                        "10/12/2004", "user1.jpg");
+                                        "10/12/2004", "user1.jpg", userRoles, "Thread");
                         user1.setUserPassword(getEncodedPassword("Karthik@1234"));
-                        user1.setRole(userRoles);
                         User user2 = new User("Slumber_420", "Praveen Kumar", " ", "lcs2022039@iiitl.ac.in", "Lucknow",
                                         "Male",
-                                        "10/08/2003", "user2.jpg");
+                                        "10/08/2003", "user2.jpg", userRoles, "Thread");
                         user2.setUserPassword(getEncodedPassword("Praveen@1234"));
-                        user2.setRole(userRoles);
                         User user3 = new User("money_heist", "Professor", " ", "professor@gmail.com", "Berlin", "Male",
-                                        "01/01/1979", "user3.jpg");
+                                        "01/01/1979", "user3.jpg", userRoles, "Thread");
                         user3.setUserPassword(getEncodedPassword("Professor@1234"));
-                        user3.setRole(userRoles);
                         User user4 = new User("asur_official", "Mukti Giver", " ", "asur@gmail.com", "Paataallok",
                                         "Male",
-                                        null, "user4.jpeg");
+                                        null, "user4.jpeg", userRoles, "Thread");
                         user4.setUserPassword(getEncodedPassword("Asur@1234"));
-                        user4.setRole(userRoles);
                         User user5 = new User("marvel_official", "Marvels", " ", "marvels@gmail.com", null, "Multiple",
-                                        null, "user5.jpg");
+                                        null, "user5.jpg", userRoles, "Thread");
                         user5.setUserPassword(getEncodedPassword("Marvels@1234"));
-                        user5.setRole(userRoles);
                         User user6 = new User("iiitl_official", "IIIT LUCKNOW", " ", "iiitl@iiitl.ac.in", null, null,
-                                        null, "iiitlProfile.png");
+                                        null, "iiitlProfile.png", userRoles, "Thread");
                         user6.setUserPassword(getEncodedPassword("Iiitl@1234"));
-                        user6.setRole(userRoles);
                         User user7 = new User("axios_iiitl", "Axios Technical Society", " ", "axios@iiitl.ac.in", null,
                                         null,
-                                        null, "Axios.jpg");
+                                        null, "Axios.jpg", userRoles, "Thread");
                         user7.setUserPassword(getEncodedPassword("Axios@1234"));
-                        user7.setRole(userRoles);
-
                         userRepo.save(user0);
                         userRepo.save(user1);
                         userRepo.save(user2);
@@ -216,7 +200,6 @@ public class UserServiceImpl implements UserService {
                 Role role = roleRepo.findByRoleName("User");
                 Set<Role> userRoles = new HashSet<>();
                 userRoles.add(role);
-                user.setRole(userRoles);
                 user.setUserName(Username);
                 user.setUserFullName(UserFullname);
                 user.setEmail(UserEmail);
@@ -316,7 +299,7 @@ public class UserServiceImpl implements UserService {
                 String UserEmail = user.getEmail();
                 String UserPassword = user.getUserPassword();
                 String securityq = user.getSecurityq();
-                User existedUser = userRepo.findByUserDetails(UserEmail,securityq);
+                User existedUser = userRepo.findByUserDetails(UserEmail, securityq);
                 if (existedUser == null)
                         throw new Exception("No User with Such Details");
                 else {

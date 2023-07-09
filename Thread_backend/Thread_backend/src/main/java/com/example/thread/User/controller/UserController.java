@@ -20,7 +20,6 @@ import com.example.thread.Connections.service.ConnectionService;
 import com.example.thread.ContactUs.service.ContactUsQueryService;
 import com.example.thread.Likes.service.LikeService;
 import com.example.thread.Post.service.PostService;
-import com.example.thread.TeamAboutUs.model.AboutUsTeam;
 import com.example.thread.TeamAboutUs.repo.AboutUsTeamRepo;
 import com.example.thread.TeamAboutUs.service.AboutUsTeamService;
 import com.example.thread.User.model.User;
@@ -34,8 +33,6 @@ import javax.annotation.PostConstruct;
 public class UserController {
     @Autowired
     private UserRepo userRepo;
-    @Autowired
-    private AboutUsTeamRepo aboutRepo;
     @Autowired
     private UserService userService;
     @Autowired
