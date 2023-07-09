@@ -1,8 +1,13 @@
 
+import { useEffect, useState } from "react"
 import Footer from "../../components/Footer"
 import UserNavBar from "../../components/UserNavBar"
 
 export default function Aboutus() {
+    // const [team, setTeam] = useState("");
+    useEffect(() => {
+        fetch("http://localhost:8080/aboutus/getTeam")
+    },[])
 
     const team = [
         {

@@ -25,7 +25,7 @@ public class User {
     private String city;
     @Column(nullable = true, updatable = true)
     private String gender;
-    @Column(nullable = true, updatable = true)
+    @Column
     private String securityq;
     @Column(nullable = true, updatable = true)
     private String DOB;
@@ -79,12 +79,12 @@ public class User {
         this.profileImage = profileImage;
     }
 
-    // public User(String userName, String userFullName, String userPassword, String email) {
-    //     this.userName = userName;
-    //     this.userFullName = userFullName;
-    //     this.userPassword = userPassword;
-    //     this.email = email;
-    // }
+    public User(String userName, String userFullName, String userPassword, String email) {
+        this.userName = userName;
+        this.userFullName = userFullName;
+        this.userPassword = userPassword;
+        this.email = email;
+    }
 
     public User(String userName, String userFullName, String userPassword, String email, String securityq) {
         this.userName = userName;
