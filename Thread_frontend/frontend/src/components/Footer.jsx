@@ -67,7 +67,7 @@ export default function Footer () {
     ]
 
     return (
-        <footer className="text-gray-500 bg-white px-4 py-5 max-w-screen-xl mx-auto md:px-8">
+        <footer className="text-gray-500  w-screen left-0 right-0 bg-white px-4 py-5  mx-auto md:px-8">
             <div className="max-w-lg sm:mx-auto sm:text-center">
             <div className="flex justify-center items-center">
               <img src="/MyImages/logo-final.png"  width={140} className="mx-auto" />
