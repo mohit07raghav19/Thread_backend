@@ -55,13 +55,13 @@ export const HomePagePosts = () => {
       .then((res) => {
         // console.log(res.data);
         setPosts(res.data.data);
-        setMatchArray(res.data.data)
+        setMatchArray(res.data.data);
       });
-    }
-    function addComment(e, comm) {
-      const data = { commentText: e.target[0].value };
-      if(e.target[0].value.length>0){
-        axios
+  }
+  function addComment(e, comm) {
+    const data = { commentText: e.target[0].value };
+    if (e.target[0].value.length > 0) {
+      axios
         .post(`http://localhost:8080/post/${comm}/comment`, data, {
           headers: {
             Authorization: `Bearer ${Token}`,
@@ -78,24 +78,63 @@ export const HomePagePosts = () => {
             }
           });
           setPosts(newar);
-          setMatchArray(newar)
+          setMatchArray(newar);
           e.target[0].value = "";
-      })
-      .catch((w) => {
-        console.log(w);
-      });
+        })
+        .catch((w) => {
+          console.log(w);
+        });
     }
-    
   }
-  // function handleLike(e){
-  //   console.log(e)
-  //   if(e.target.children[0].style.fill=="blue"){
-  //     e.target.children[0].style.fill="none"
-  //   }
-  //   else{
-  //     e.target.children[0].style.fill="blue"
-  //   }
-  // }
+  function handleLike(e, isliked, id) {
+    if (isliked) {
+      axios
+        .delete(`http://localhost:8080/unlike/${id}`, {
+          headers: {
+            Authorization: `Bearer ${Token}`,
+          },
+        })
+        .then((res) => {
+          console.log(7);
+          axios
+            .get("http://localhost:8080/posts/feed/", {
+              headers: {
+                Authorization: `Bearer ${Token}`,
+              },
+            })
+            .then((res) => {
+              // console.log(res.data);
+              setPosts(res.data.data);
+              setMatchArray(res.data.data);
+            });
+        });
+    } else {
+      axios
+        .post(
+          `http://localhost:8080/like/${id}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${Token}`,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(6);
+          axios
+            .get("http://localhost:8080/posts/feed/", {
+              headers: {
+                Authorization: `Bearer ${Token}`,
+              },
+            })
+            .then((res) => {
+              // console.log(res.data);
+              setPosts(res.data.data);
+              setMatchArray(res.data.data);
+            });
+        });
+    }
+  }
   // useEffect(()=>{},[posts]);
   useEffect(() => {
     axios
@@ -165,6 +204,9 @@ export const HomePagePosts = () => {
                             @{item.userName}
                           </p>
                         </div>
+                        <span className="block text-gray-700 text-sm ml-auto font-semibold">
+                                          {item.creationTime}
+                          </span>
                       </div>
                     </div>
                     {item.postImage && (
@@ -178,11 +220,21 @@ export const HomePagePosts = () => {
                     )}
                     <div className="mt-4">
                       <p className="text-gray-600 mt-2">{item.description}</p>
-                      <div className="mt-3 flex gap-4 text-gray-400">
+                      <div className="mt-3 flex items-center gap-4 text-gray-700">
                         <button>
-                          <FaRegHeart />
-                          <FaHeart />
+                          <FaHeart
+                            onClick={(e) => {
+                              handleLike(e, item.isliked, item.postId);
+                            }}
+                            style={{
+                              color: item.isliked ? "red" : "#ddd",
+                              fontSize: "28px",
+                            }}
+                          />
                         </button>
+                        <span className=" -mt-1 block text-gray-700 text-lg font-semibold">
+                          {item.likes}
+                        </span>
                       </div>
                     </div>
 

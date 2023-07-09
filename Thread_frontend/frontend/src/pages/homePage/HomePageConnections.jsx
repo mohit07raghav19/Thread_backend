@@ -14,7 +14,7 @@ export const HomePageConnections = () => {
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setNonConnections(res.data.data);
       });
   }, []);
@@ -26,7 +26,7 @@ export const HomePageConnections = () => {
       },
     })
     .then((res)=>{
-      console.log(e)
+      // console.log(e)
       e.target.innerText="Connected";
       e.target.style.backgroundColor="black";
       e.target.style.color="white";
@@ -40,14 +40,14 @@ export const HomePageConnections = () => {
           },
         })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           setNonConnections(res.data.data);
           e.target.style.backgroundColor="white";
           e.target.parentElement.parentElement.style.animationPlayState="paused";
           e.target.style.color="black";
           e.target.innerText="Connect";
         });
-      }, 1900);
+      }, 2000);
     })
     ;
   }

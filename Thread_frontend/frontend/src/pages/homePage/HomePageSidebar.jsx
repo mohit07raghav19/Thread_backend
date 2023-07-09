@@ -8,7 +8,7 @@ const Sidebar = () => {
 
   const navigation = [
     {
-      href: "javascript:void(0)",
+      href: "/gallery",
       name: "Gallery",
       icon: (
         <svg
@@ -65,7 +65,7 @@ const Sidebar = () => {
       ),
     },
     {
-      href: "javascript:void(0)",
+      href: "/profile",
       name: "Connections",
       icon: (
         <svg
@@ -89,7 +89,7 @@ const Sidebar = () => {
 
   const navsFooter = [
     {
-      href: "javascript:void(0)",
+      href: "/contactus",
       name: "Contact Us",
       icon: (
         <svg
@@ -109,7 +109,7 @@ const Sidebar = () => {
       ),
     },
     {
-      href: "javascript:void(0)",
+      href: "/login",
       name: "Logout",
       icon: (
         <svg
@@ -145,13 +145,13 @@ const Sidebar = () => {
             <ul className="px-4 pt-10 text-sm font-medium flex-1">
               {navigation.map((item, idx) => (
                 <li key={idx}>
-                  <a
-                    href={item.href}
+                  <Link
+                    to={item.href}
                     className="flex items-center mt-4 gap-x-2 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150"
                   >
                     <div className="text-gray-500">{item.icon}</div>
                     <p className="text-lg">{item.name}</p>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -159,13 +159,13 @@ const Sidebar = () => {
               <ul className="px-4 pb-4 text-sm font-medium">
                 {navsFooter.map((item, idx) => (
                   <li key={idx}>
-                    <a
-                      href={item.href}
+                    <Link
+                      to={item.href}
                       className="flex items-center mt-4 gap-x-2 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150"
                     >
                       <div className="text-gray-500">{item.icon}</div>
                       <p className="text-lg">{item.name}</p>
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -180,7 +180,7 @@ const Sidebar = () => {
                       {decoded.userName}
                     </span>
                     <Link
-                      to="/we"
+                      to="/profile"
                       className="block mt-px text-gray-600 hover:text-indigo-600 text-xs"
                     >
                       View profile

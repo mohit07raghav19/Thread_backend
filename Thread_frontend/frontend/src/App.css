@@ -3,3 +3,16 @@
   padding: 0;
   outline: none;
 }
+.sticky-nav {
+  animation: sticky-nav 300ms;
+}
+ 
+@keyframes sticky-nav {
+ 0% {
+     transform: translateY(-6em)
+ }
+
+ 100% {
+     transform: translateY(0)
+ }
+}

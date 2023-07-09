@@ -10,5 +10,6 @@
   
   .opac-controller {
     animation:opac 2s infinite;
+    animation-timing-function: ease-out;
     animation-play-state: paused;
   }
