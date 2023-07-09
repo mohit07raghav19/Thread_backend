@@ -56,8 +56,11 @@ export default function Login() {
     <main className="w-full flex">
       <div className="relative flex-1 hidden items-center justify-center h-screen bg-gray-900 lg:flex">
         <div className="relative z-10 w-full max-w-md">
-          <img src="https://floatui.com/logo-dark.svg" width={150} />
-          <div className=" mt-16 space-y-3">
+        <div className="flex justify-center items-center">
+              <img src="/MyImages/logo-home.png"  width={200} height={160} className="mx-auto" />
+              {/* change to thread logo */}
+            </div>
+          <div className=" mt-2 space-y-3">
             <h3 className="text-white text-3xl font-bold">
               Give people the power to build community
             </h3>

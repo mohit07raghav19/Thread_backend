@@ -1,14 +1,18 @@
 import axios from "axios";
 import Footer from "../../components/Footer";
 import UserNavBar from "../../components/UserNavBar";
+import Navbar from "../../components/Navbar";
+import { useEffect, useState } from "react";
 
 export default function Contactus() {
-  const servicesItems = [
-    "Mobile development",
-    "UI/UX Design",
-    "web development",
-    "SEO",
-  ];
+  const [token,setToken] =useState(null);
+
+  useEffect(()=>{
+    if(sessionStorage.getItem("jwtToken")){
+      let t=sessionStorage.getItem("jwtToken")
+      setToken(t);
+  }
+  },[])
   function handlequery() {
     let nm = document.getElementById("nm").value;
     let em = document.getElementById("em").value;
@@ -41,7 +45,9 @@ export default function Contactus() {
 
   return (
     <div>
-      <UserNavBar />
+     {token?<UserNavBar/>:
+      <Navbar />
+    }
       <main className="flex overflow-hidden">
         <div className="flex-1 hidden lg:block">
           <img

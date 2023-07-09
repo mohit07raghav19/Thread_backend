@@ -2,106 +2,48 @@ import { useEffect, useState } from "react";
 import Footer from "../../components/Footer";
 import UserNavBar from "../../components/UserNavBar";
 import axios from "axios";
+import Navbar from "../../components/Navbar";
 export default function Aboutus() {
-  // const [team, setTeam] = useState("");
-  const Token = sessionStorage.getItem("jwtToken");
+  const [team, setTeam] = useState([]);
+  const [token,setToken] =useState(null);
   useEffect(() => {
+    if(sessionStorage.getItem("jwtToken")){
+        let t=sessionStorage.getItem("jwtToken")
+        setToken(t);
+    }
     axios
       .get("http://localhost:8080/aboutus/getTeam")
       .then((res) => {
+        setTeam(res.data.data)
         console.log(res);
-        console.log("this is the response", res);
       })
       .catch((e) => {
         console.log(e);
       });
   }, []);
-
-  const team = [
-    {
-      avatar:
-        "https://images.unsplash.com/photo-1579017331263-ef82f0bbc748?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=685&q=80",
-      name: "Martiana dialan",
-      title: "Product designer",
-      desc: "Lorem Ipsum is simply dummy text of the printing and typesettin industry.",
-      linkedin: "javascript:void(0)",
-      twitter: "javascript:void(0)",
-      github: "javascript:void(0)",
-    },
-    {
-      avatar:
-        "https://images.unsplash.com/photo-1623605931891-d5b95ee98459?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=640&q=80",
-      name: "Micheal colorand",
-      title: "Software engineer",
-      desc: "Lorem Ipsum is simply dummy text of the printing and typesettin industry.",
-      linkedin: "javascript:void(0)",
-      twitter: "javascript:void(0)",
-      github: "javascript:void(0)",
-    },
-    {
-      avatar:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-      name: "Brown Luis",
-      title: "Full stack engineer",
-      desc: "Lorem Ipsum is simply dummy text of the printing and typesettin industry.",
-      linkedin: "javascript:void(0)",
-      twitter: "javascript:void(0)",
-      github: "javascript:void(0)",
-    },
-    {
-      avatar:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-      name: "Lysa sandiago",
-      title: "Head of designers",
-      desc: "Lorem Ipsum is simply dummy text of the printing and typesettin industry.",
-      linkedin: "javascript:void(0)",
-      twitter: "javascript:void(0)",
-      github: "javascript:void(0)",
-    },
-    {
-      avatar:
-        "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-      name: "Daniel martin",
-      title: "Product designer",
-      desc: "Lorem Ipsum is simply dummy text of the printing and typesettin industry.",
-      linkedin: "javascript:void(0)",
-      twitter: "javascript:void(0)",
-      github: "javascript:void(0)",
-    },
-    {
-      avatar:
-        "https://images.unsplash.com/photo-1540569014015-19a7be504e3a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
-      name: "Vicky tanson",
-      title: "Product manager",
-      desc: "Lorem Ipsum is simply dummy text of the printing and typesettin industry.",
-      linkedin: "javascript:void(0)",
-      twitter: "javascript:void(0)",
-      github: "javascript:void(0)",
-    },
-  ];
-
   return (
     <div>
-      <UserNavBar />
+        {token?<UserNavBar/>:
+      <Navbar />
+    }
       <section className="py-14">
         <div className="max-w-screen-xl mx-auto px-4 md:px-8">
           <div className="max-w-xl">
             <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
-              Meet our team of Engineers, designers, and product managers.
+              Meet our team of Developers and Designers.
             </h3>
             <p className="text-gray-600 mt-3">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.Lorem Ipsum has been the industry's standard dummy.
+            At Thread our diverse team of passionate individuals brings a wealth of expertise and a relentless pursuit of excellence. We collaborate seamlessly, combining our talents to tackle challenges and achieve remarkable results.
             </p>
           </div>
           <div className="mt-12">
-            <ul className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
+            <ul className="grid  gap-8 sm:grid-cols-2 md:grid-cols-3">
               {team.map((item, idx) => (
                 <li key={idx}>
-                  <div className="w-full h-60 sm:h-52 md:h-56">
+                  <div className="w-64 h-64 sm:h-64 md:h-64">
                     <img
-                      src={item.avatar}
-                      className="w-full h-full object-cover object-center shadow-md rounded-xl"
+                      src={"MyImages/"+item.avatar}
+                      className="w-full h-full object-cover object-center shadow-md rounded-full"
                       alt=""
                     />
                   </div>
@@ -110,7 +52,7 @@ export default function Aboutus() {
                       {item.name}
                     </h4>
                     <p className="text-indigo-600">{item.title}</p>
-                    <p className="text-gray-600 mt-2">{item.desc}</p>
+                    <p className="text-gray-600 mt-2">{item.description}</p>
                     <div className="mt-3 flex gap-4 text-gray-400">
                       <a href={item.twitter}>
                         <svg

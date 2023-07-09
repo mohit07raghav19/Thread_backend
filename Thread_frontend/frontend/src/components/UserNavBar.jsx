@@ -67,15 +67,11 @@ export default function UserNavbar() {
   ]
     return (
         <nav className="bg-white border-b top-0 sticky z-50">
-            <div className="flex items-center space-x-8 py-3 px-4 max-w-screen-xl mx-auto md:px-8">
+            <div className="flex items-center space-x-8 -my-7 px-4 max-w-screen-xl mx-auto md:px-8">
                 <div className="flex-none lg:flex-initial">
                     <Link to="/">
-                        <img
-                            src="https://www.floatui.com/logo.svg" 
-                            width={120} 
-                            height={50}
-                            alt="Float UI logo"
-                        />
+              <img src="/MyImages/logo-final.png"  width={140} className="mx-auto" />
+              {/* change to thread logo */}
                     </Link>
                 </div>
                 <div className="flex-1 flex items-center justify-between">
