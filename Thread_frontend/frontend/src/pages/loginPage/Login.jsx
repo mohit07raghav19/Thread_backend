@@ -56,18 +56,24 @@ export default function Login() {
     <main className="w-full flex">
       <div className="relative flex-1 hidden items-center justify-center h-screen bg-gray-900 lg:flex">
         <div className="relative z-10 w-full max-w-md">
-        <div className="flex justify-center items-center">
-              <img src="/MyImages/logo-home.png"  width={200} height={160} className="mx-auto" />
-              {/* change to thread logo */}
-            </div>
+          <div className="flex justify-center items-center">
+            <img
+              src="/MyImages/logo-home.png"
+              width={200}
+              height={160}
+              className="mx-auto"
+            />
+            {/* change to thread logo */}
+          </div>
           <div className=" mt-2 space-y-3">
             <h3 className="text-white text-3xl font-bold">
               Give people the power to build community
             </h3>
             <p className="text-gray-300">
-              We're commited to fostering a safe and supportive community for
-              everyone We're commited to fostering a safe and supportive
-              community for everyone
+              We're thrilled to have you here, ready to explore the vibrant
+              community of Thread. Login to your account and dive into a world
+              of endless connections, meaningful conversations, and
+              inspiring content.
             </p>
             <div className="flex items-center -space-x-2 overflow-hidden">
               <img
