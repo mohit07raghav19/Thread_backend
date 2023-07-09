@@ -2,10 +2,12 @@
   margin: 0;
   padding: 0;
   outline: none;
+  user-select: none;
 }
 .sticky-nav {
   animation: sticky-nav 300ms;
 }
+
  
 @keyframes sticky-nav {
  0% {

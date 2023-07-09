@@ -178,7 +178,7 @@ public class PostController {
 
     @PostMapping("posts/")
     public ResponseEntity<?> addPost(Authentication authentication, @RequestParam("post") String post,
-            @RequestParam("file") MultipartFile file) {
+            @RequestParam(value="file",required = false) MultipartFile file) {
         apiResponse = new APIResponse();
         Vector<PostResponse> vec = new Vector<>();
         ObjectMapper objectMapper = new ObjectMapper();
