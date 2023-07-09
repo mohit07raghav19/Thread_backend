@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, redirect, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 export function loader({ req }) {
-//   console.log(sessionStorage.getItem("jwtToken") == null);
+  //   console.log(sessionStorage.getItem("jwtToken") == null);
   if (sessionStorage.getItem("jwtToken") != null) {
     throw redirect("/home?message=AlreadyLogin");
   }
@@ -16,39 +17,85 @@ export default function Signup() {
     const em = document.getElementById("ema").value;
     const password = document.getElementById("password").value;
     const sec = document.getElementById("secu").value;
-    console.log(userId)
-    console.log(userfname)
-    console.log(em)
-    console.log(password)
+    const id = toast.loading("Checking Credentials...", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+    console.log(userId);
+    console.log(userfname);
+    console.log(em);
+    console.log(password);
     try {
       axios
         .post("http://localhost:8080/register", {
-          "userName": userId,
-          "userFullName": userfname,
-          "userPassword": password,
-          "email": em,
-          "securityq":sec
+          userName: userId,
+          userFullName: userfname,
+          userPassword: password,
+          email: em,
+          securityq: sec,
         })
         .then((res) => {
           console.log(res);
           if (res.data.status == "fail") {
             throw new Error("Incorrect Credentials");
           }
-          axios.post("http://localhost:8080/authenticate", {
-            "userName": userId,
-            "userPassword": password,
-          })
-          .then((res)=>{
-            const Token = res.data.data[0].jwtToken;
-            sessionStorage.setItem("jwtToken", Token);
-            navigate("/home");
-          });
+          axios
+            .post("http://localhost:8080/authenticate", {
+              userName: userId,
+              userPassword: password,
+            })
+            .then((res) => {
+              const Token = res.data.data[0].jwtToken;
+              sessionStorage.setItem("jwtToken", Token);
+              setTimeout(
+                function () {
+                  toast.update(id, {
+                    render: "Signed Successfully",
+                    type: "success",
+                    isLoading: false,
+                    position: toast.POSITION.TOP_RIGHT,
+                    autoClose: 1500,
+                  });
+                  setTimeout(
+                    function () {
+                      navigate("/home");
+                    },
+                    [1500]
+                  );
+                },
+                [700]
+              );
+              // navigate("/home");
+            });
         })
         .catch((e) => {
           console.log(e);
+          setTimeout(
+            function () {
+              toast.update(id, {
+                render: "Bad Credentials",
+                type: "error",
+                isLoading: false,
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 1000,
+              });
+            },
+            [500]
+          );
         });
     } catch (err) {
       console.log(err);
+      setTimeout(
+        function () {
+          toast.update(id, {
+            render: "Bad Credentials",
+            type: "error",
+            isLoading: false,
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 1000,
+          });
+        },
+        [500]
+      );
     }
   }
 
@@ -174,8 +221,13 @@ export default function Signup() {
               </h3>
             </div>
           </div>
-          <form onSubmit={(e) =>{e.preventDefault();
-        handleSignup()}} className="space-y-5">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSignup();
+            }}
+            className="space-y-5"
+          >
             <div>
               <label className="font-medium">User Id</label>
               <input
@@ -207,10 +259,12 @@ export default function Signup() {
               />
             </div>
             <div>
-            <span className="block text-gray-700 text-sm font-semibold">
-              Please Fill the Security Question
-             </span>
-              <label className="font-medium">What is your Childhood Name?</label>
+              <span className="block text-gray-700 text-sm font-semibold">
+                Please Fill the Security Question
+              </span>
+              <label className="font-medium">
+                What is your Childhood Name?
+              </label>
               <input
                 id="secu"
                 type="text"

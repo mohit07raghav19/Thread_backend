@@ -3,6 +3,8 @@ import Footer from "../../components/Footer";
 import UserNavBar from "../../components/UserNavBar";
 import Navbar from "../../components/Navbar";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
 
 export default function Contactus() {
   const [token,setToken] =useState(null);
@@ -19,6 +21,9 @@ export default function Contactus() {
     let sm = document.getElementById("sm").value;
     let mm = document.getElementById("mm").value;
     let myfm = document.getElementById("myfm");
+    const id = toast.loading("Sending Query...", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
     try {
       axios
         .post("http://localhost:8080/contactus/create", {
@@ -31,23 +36,43 @@ export default function Contactus() {
         .then((res) => {
           console.log(res);
           if (res.data.status == "fail") {
-            throw new Error("Incorrect Password");
+            throw new Error("Axios error");
           }
           myfm.reset();
+          toast.update(id, {
+            render: "Query Send Successfully",
+            type: "success",
+            isLoading: false,
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 1500,
+          });
+          
         })
         .catch((e) => {
-          console.log(e);
+          // console.log(e);
+          toast.update(id, {
+            render: "Error Sending Query",
+            type: "error",
+            isLoading: false,
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 1000,
+          });
         });
     } catch (err) {
-      console.log(err);
+      // console.log(err);
+      toast.update(id, {
+        render: "Error Sending Query",
+        type: "error",
+        isLoading: false,
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
     }
   }
 
   return (
     <div>
-     {token?<UserNavBar/>:
-      <Navbar />
-    }
+      {token ? <UserNavBar /> : <Navbar />}
       <main className="flex overflow-hidden">
         <div className="flex-1 hidden lg:block">
           <img
@@ -66,9 +91,11 @@ export default function Contactus() {
               </p>
             </div>
             <form
-            id="myfm"
-              onSubmit={(e) => {e.preventDefault();
-                handlequery()}}
+              id="myfm"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handlequery();
+              }}
               className="space-y-5 mt-12 lg:pb-12"
             >
               <div>

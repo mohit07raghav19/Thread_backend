@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import ForgetPassword from "./ForgetPassword";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export function loader({ request }) {
   const pathname = new URL(request.url).searchParams.get("message") || null;
@@ -28,6 +29,9 @@ export default function Login() {
   function handleLogin() {
     const userId = document.getElementById("uid").value;
     const password = document.getElementById("upas").value;
+    const id = toast.loading("Checking Credentials...", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
     try {
       axios
         .post("http://localhost:8080/authenticate", {
@@ -35,19 +39,61 @@ export default function Login() {
           userPassword: password,
         })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.data.status == "fail") {
             throw new Error("Incorrect Password");
           }
           const Token = res.data.data[0].jwtToken;
           sessionStorage.setItem("jwtToken", Token);
-          navigate("/home");
+          setTimeout(
+            function () {
+              toast.update(id, {
+                render: "Login Successfully",
+                type: "success",
+                isLoading: false,
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 1500,
+              });
+              setTimeout(
+                function () {
+                  navigate("/home");
+                },
+                [1500]
+              );
+            },
+            [700]
+          );
+          // navigate("/home");
         })
         .catch((e) => {
-          console.log(e);
+          // console.log(e);
+          setTimeout(
+            function () {
+              toast.update(id, {
+                render: "Bad Credentials",
+                type: "error",
+                isLoading: false,
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 1000,
+              });
+            },
+            [500]
+          );
         });
     } catch (err) {
-      console.log(err);
+      // console.log(err);
+      setTimeout(
+        function () {
+          toast.update(id, {
+            render: "Bad Credentials",
+            type: "error",
+            isLoading: false,
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 1000,
+          });
+        },
+        [500]
+      );
     }
   }
 
@@ -72,8 +118,8 @@ export default function Login() {
             <p className="text-gray-300">
               We're thrilled to have you here, ready to explore the vibrant
               community of Thread. Login to your account and dive into a world
-              of endless connections, meaningful conversations, and
-              inspiring content.
+              of endless connections, meaningful conversations, and inspiring
+              content.
             </p>
             <div className="flex items-center -space-x-2 overflow-hidden">
               <img

@@ -3,8 +3,9 @@ import react, { useEffect, useRef, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import axios from "axios";
 import { JwtDecoder } from "../../Utils/JwtDecoder";
+import { toast } from "react-toastify";
 
-export const HomePagePosts = ({nonConnections}) => {
+export const HomePagePosts = ({ nonConnections }) => {
   const [posts, setPosts] = useState([]);
   const [matchArray, setMatchArray] = useState(posts);
   const [noMatch, setNoMatch] = useState(null);
@@ -41,7 +42,11 @@ export const HomePagePosts = ({nonConnections}) => {
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
+        toast.success("Comment Deleted", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 1000,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -186,11 +191,13 @@ export const HomePagePosts = ({nonConnections}) => {
                   No match found
                 </span>
               )}
-              {matchArray.length==0 && <span className="block text-gray-700 text-sm font-semibold">
+              {matchArray.length == 0 && (
+                <span className="block text-gray-700 text-sm font-semibold">
                   You have no connections.Please Connect to Users.
-                </span>}
+                </span>
+              )}
               {noMatch == null &&
-                matchArray.length>0 &&
+                matchArray.length > 0 &&
                 matchArray.map((item, idx) => (
                   <li key={idx} className="border-2 p-4 shadow-md rounded-md">
                     <div className="py-4 px-4">
@@ -208,8 +215,8 @@ export const HomePagePosts = ({nonConnections}) => {
                           </p>
                         </div>
                         <span className="block text-gray-700 text-sm ml-auto font-semibold">
-                                          {item.creationTime}
-                          </span>
+                          {item.creationTime}
+                        </span>
                       </div>
                     </div>
                     {item.postImage && (
@@ -244,7 +251,7 @@ export const HomePagePosts = ({nonConnections}) => {
                     {item.comments.length > 0 && (
                       <>
                         <span className="block text-gray-700 text-sm font-semibold mt-3">
-                          Comments 
+                          Comments
                         </span>
                         <ol className="h-36 overflow-y-scroll ">
                           {item.comments.map((ite, id) => {
