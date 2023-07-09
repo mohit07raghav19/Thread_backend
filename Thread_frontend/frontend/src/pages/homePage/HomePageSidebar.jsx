@@ -46,8 +46,8 @@ const Sidebar = () => {
       ),
     },
     {
-      href: "javascript:void(0)",
-      name: "Messages",
+      href: "/aboutus",
+      name: "About Us",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"

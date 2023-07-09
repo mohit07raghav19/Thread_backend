@@ -3,8 +3,6 @@ package com.example.thread.TeamAboutUs.controller;
 import java.util.List;
 import java.util.Vector;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.thread.ApiResponse.APIResponse;
 import com.example.thread.TeamAboutUs.model.AboutUsTeam;
-import com.example.thread.TeamAboutUs.repo.AboutUsTeamRepo;
 import com.example.thread.TeamAboutUs.service.AboutUsTeamService;
 
 @RestController
@@ -24,8 +21,6 @@ import com.example.thread.TeamAboutUs.service.AboutUsTeamService;
 public class AboutUsTeamController {
     @Autowired
     private AboutUsTeamService service;
-    @Autowired
-    private AboutUsTeamRepo aboutRepo;
 
     private APIResponse apiResponse;
 

@@ -131,7 +131,7 @@ public class UserController {
         User getUser;
         try {
             Vector<User> vec = new Vector<>();
-            getUser = userRepo.findByUserDetails(user.getUserName(), user.getUserFullName(), user.getEmail());
+            getUser = userRepo.findByUserDetails(user.getEmail(), user.getSecurityq());
             if (getUser != null) {
                 getUser.setConnector(null);
                 vec.add(getUser);

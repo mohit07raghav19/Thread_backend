@@ -5,7 +5,7 @@ import UserNavBar from '../../components/UserNavBar'
 export default function Gallery() {
     return (
         <div>
-            {/* <UserNavBar/> */}
+            <UserNavBar/>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="grid gap-4">
                     <div>

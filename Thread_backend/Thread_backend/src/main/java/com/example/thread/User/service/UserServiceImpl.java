@@ -173,6 +173,7 @@ public class UserServiceImpl implements UserService {
                 String UserFullname = user.getUserFullName();
 
                 String UserPassword = user.getUserPassword();
+                String securityq = user.getSecurityq();
 
                 boolean UserNameIsNotValid = (Username == null) ||
                                 !Username.matches("[A-Za-z0-9_]+");
@@ -220,6 +221,7 @@ public class UserServiceImpl implements UserService {
                 user.setUserFullName(UserFullname);
                 user.setEmail(UserEmail);
                 user.setUserPassword(getEncodedPassword(UserPassword));
+                user.setSecurityq(securityq);
                 return userRepo.save(user);
 
         }
@@ -312,10 +314,9 @@ public class UserServiceImpl implements UserService {
         @Override
         public User changePassword(User user) throws Exception {
                 String UserEmail = user.getEmail();
-                String UserName = user.getUserName();
-                String UserFullName = user.getUserFullName();
                 String UserPassword = user.getUserPassword();
-                User existedUser = userRepo.findByUserDetails(UserName, UserFullName, UserEmail);
+                String securityq = user.getSecurityq();
+                User existedUser = userRepo.findByUserDetails(UserEmail,securityq);
                 if (existedUser == null)
                         throw new Exception("No User with Such Details");
                 else {

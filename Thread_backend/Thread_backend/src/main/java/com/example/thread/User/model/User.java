@@ -26,6 +26,8 @@ public class User {
     @Column(nullable = true, updatable = true)
     private String gender;
     @Column(nullable = true, updatable = true)
+    private String securityq;
+    @Column(nullable = true, updatable = true)
     private String DOB;
     @Column(nullable = true, updatable = true)
     private String profileImage = "defaultProfile.jpg";
@@ -77,11 +79,19 @@ public class User {
         this.profileImage = profileImage;
     }
 
-    public User(String userName, String userFullName, String userPassword, String email) {
+    // public User(String userName, String userFullName, String userPassword, String email) {
+    //     this.userName = userName;
+    //     this.userFullName = userFullName;
+    //     this.userPassword = userPassword;
+    //     this.email = email;
+    // }
+
+    public User(String userName, String userFullName, String userPassword, String email, String securityq) {
         this.userName = userName;
         this.userFullName = userFullName;
         this.userPassword = userPassword;
         this.email = email;
+        this.securityq = securityq;
     }
 
     public String getUserName() {
@@ -162,6 +172,22 @@ public class User {
 
     public void setConnector(List<Connections> connector) {
         this.connector = connector;
+    }
+
+    public String getSecurityq() {
+        return securityq;
+    }
+
+    public void setSecurityq(String securityq) {
+        this.securityq = securityq;
+    }
+
+    public List<Likes> getLiked() {
+        return liked;
+    }
+
+    public void setLiked(List<Likes> liked) {
+        this.liked = liked;
     }
 
 }
