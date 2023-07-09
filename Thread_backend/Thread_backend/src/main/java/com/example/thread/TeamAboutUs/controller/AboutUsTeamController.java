@@ -1,7 +1,9 @@
-package com.example.thread.AboutUs.controller;
+package com.example.thread.TeamAboutUs.controller;
 
 import java.util.List;
 import java.util.Vector;
+
+import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +14,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.thread.AboutUs.model.AboutUsTeam;
-import com.example.thread.AboutUs.service.AboutUsTeamService;
 import com.example.thread.ApiResponse.APIResponse;
+import com.example.thread.TeamAboutUs.model.AboutUsTeam;
+import com.example.thread.TeamAboutUs.repo.AboutUsTeamRepo;
+import com.example.thread.TeamAboutUs.service.AboutUsTeamService;
 
 @RestController
 @RequestMapping("/aboutus")
 public class AboutUsTeamController {
     @Autowired
     private AboutUsTeamService service;
+    @Autowired
+    private AboutUsTeamRepo aboutRepo;
+
     private APIResponse apiResponse;
 
     @PostMapping(value = "/addMember", produces = "application/json")

@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.thread.Connections.repo.ConnectionRepo;
 import com.example.thread.Post.model.Post;
 import com.example.thread.Post.model.PostResponse;
 import com.example.thread.Post.repo.PostRepo;
@@ -31,6 +32,8 @@ public class PostServiceImpl implements PostService {
     @Autowired
     UserRepo userRepo;
 
+    @Autowired
+    private ConnectionRepo conRepo;
     @Autowired
     RoleRepo roleRepo;
 
@@ -151,16 +154,11 @@ public class PostServiceImpl implements PostService {
             throw new Exception("user not authorized");
         }
         // ! Get All Posts except Logged in User
+        // !  --> Connections post
         // * Also left --> Not to include Liked posts
-        // * to include --> Connections post
-        List<Post> posts = this.postRepo.findAll(Sort.by(Sort.Direction.DESC, "creationTime"));
-        Iterator<Post> itr = posts.iterator();
-        while (itr.hasNext()) {
-            String name = itr.next().getUser().getUserName();
-            if (name.equals(LoggedInUser.getUserName())) {
-                itr.remove();
-            }
-        }
+
+        List<Post> posts = this.postRepo.findPostOfConnections(LoggedInUser.getUserName());
+
         List<PostResponse> postResponse = new ArrayList<PostResponse>();
         for (Post post : posts) {
             postResponse.add(new PostResponse(post));

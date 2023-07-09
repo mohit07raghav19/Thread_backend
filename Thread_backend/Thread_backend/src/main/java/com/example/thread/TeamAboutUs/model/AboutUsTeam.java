@@ -1,4 +1,4 @@
-package com.example.thread.AboutUs.model;
+package com.example.thread.TeamAboutUs.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,17 +11,15 @@ import javax.persistence.Table;
 @Table(name = "about_us_team")
 public class AboutUsTeam {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int memberId;
-
     private String avatar;
 
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String desc;
-
+    @Column(columnDefinition = "LONGTEXT", nullable = false)
+    private String description;
     private String title;
     private String email;
     private String linkedin;
@@ -32,13 +30,12 @@ public class AboutUsTeam {
         super();
     }
 
-    public AboutUsTeam(int memberId, String avatar, String title, String desc, String name, String email,
+    public AboutUsTeam(String avatar, String name, String description, String title, String email,
             String linkedin, String twitter, String github) {
-        this.memberId = memberId;
         this.avatar = avatar;
-        this.title = title;
-        this.desc = desc;
         this.name = name;
+        this.description = description;
+        this.title = title;
         this.email = email;
         this.linkedin = linkedin;
         this.twitter = twitter;
@@ -69,12 +66,12 @@ public class AboutUsTeam {
         this.title = title;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getName() {
