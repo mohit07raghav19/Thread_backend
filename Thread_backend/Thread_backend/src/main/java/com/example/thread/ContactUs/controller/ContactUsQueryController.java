@@ -56,7 +56,7 @@ public class ContactUsQueryController {
     }
 
     @PostMapping(value = "/setasanswered/{queryId}", produces = "application/json")
-    @PreAuthorize("hasRole('Admin')")
+      @PreAuthorize("hasAuthority('Admin')")
     public ResponseEntity<?> setAsAnswered(@PathVariable("queryId") Integer queryId) {
         apiResponse = new APIResponse();
         Vector<ContactUsQuery> vec = new Vector<>();
@@ -79,7 +79,7 @@ public class ContactUsQueryController {
     }
 
     @GetMapping(value = "/all", produces = "application/json")
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAuthority('Admin')")
     public ResponseEntity<?> getAll() {
         apiResponse = new APIResponse();
         Vector<ContactUsQuery> vec = new Vector<>();
@@ -101,7 +101,7 @@ public class ContactUsQueryController {
     }
 
     @GetMapping(value = "/answered", produces = "application/json")
-    @PreAuthorize("hasRole('Admin')")
+       @PreAuthorize("hasAuthority('Admin')")
     public ResponseEntity<?> getAnswered() {
         apiResponse = new APIResponse();
         Vector<ContactUsQuery> vec = new Vector<>();
@@ -123,7 +123,7 @@ public class ContactUsQueryController {
     }
 
     @GetMapping(value = "/unanswered", produces = "application/json")
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAuthority('Admin')")
     public ResponseEntity<?> getUnAnswered() {
         apiResponse = new APIResponse();
         Vector<ContactUsQuery> vec = new Vector<>();
