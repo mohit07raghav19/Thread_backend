@@ -1,6 +1,11 @@
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { JwtDecoder } from "../../Utils/JwtDecoder";
 const Sidebar = () => {
+  const Token = sessionStorage.getItem("jwtToken");
+
+  const decoded = JwtDecoder(Token);
+
   const navigation = [
     {
       href: "javascript:void(0)",
@@ -167,12 +172,12 @@ const Sidebar = () => {
               <div className="py-4 px-4 border-t">
                 <div className="flex items-center gap-x-4">
                   <img
-                    src="https://randomuser.me/api/portraits/women/79.jpg"
+                    src={"/MyImages/" + decoded.userProfileImage}
                     className="w-12 h-12 rounded-full"
                   />
                   <div>
                     <span className="block text-gray-700 text-sm font-semibold">
-                      User name
+                      {decoded.userName}
                     </span>
                     <Link
                       to="/we"

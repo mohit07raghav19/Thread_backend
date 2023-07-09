@@ -1,0 +1,14 @@
+@keyframes opac { 
+    0% {
+      opacity: 1;
+    }
+  
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  .opac-controller {
+    animation:opac 2s infinite;
+    animation-play-state: paused;
+  }

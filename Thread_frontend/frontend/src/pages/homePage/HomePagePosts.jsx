@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import react, { useEffect, useRef, useState } from "react";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import axios from "axios";
 import { JwtDecoder } from "../../Utils/JwtDecoder";
 
@@ -40,7 +41,7 @@ export const HomePagePosts = () => {
         },
       })
       .then((res) => {
-        // console.log(res);
+        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -54,34 +55,48 @@ export const HomePagePosts = () => {
       .then((res) => {
         // console.log(res.data);
         setPosts(res.data.data);
+        setMatchArray(res.data.data)
       });
-  }
-  //   useEffect(()=>{},[])
-  function addComment(e, comm) {
-    const data = { commentText: e.target[0].value };
-    axios
-      .post(`http://localhost:8080/post/${comm}/comment`, data, {
-        headers: {
-          Authorization: `Bearer ${Token}`,
-        },
-      })
-      .then((res) => {
-        // console.log(res.data)
-        let newar = posts.map((item) => {
-          if (item.postId == comm) {
-            // let data=res.data;
-            return { ...item, comments: res.data.data };
-          } else {
-            return item;
-          }
-        });
-        setPosts(newar);
-        e.target[0].value = "";
+    }
+    function addComment(e, comm) {
+      const data = { commentText: e.target[0].value };
+      if(e.target[0].value.length>0){
+        axios
+        .post(`http://localhost:8080/post/${comm}/comment`, data, {
+          headers: {
+            Authorization: `Bearer ${Token}`,
+          },
+        })
+        .then((res) => {
+          // console.log(res.data)
+          let newar = posts.map((item) => {
+            if (item.postId == comm) {
+              // let data=res.data;
+              return { ...item, comments: res.data.data };
+            } else {
+              return item;
+            }
+          });
+          setPosts(newar);
+          setMatchArray(newar)
+          e.target[0].value = "";
       })
       .catch((w) => {
         console.log(w);
       });
+    }
+    
   }
+  // function handleLike(e){
+  //   console.log(e)
+  //   if(e.target.children[0].style.fill=="blue"){
+  //     e.target.children[0].style.fill="none"
+  //   }
+  //   else{
+  //     e.target.children[0].style.fill="blue"
+  //   }
+  // }
+  // useEffect(()=>{},[posts]);
   useEffect(() => {
     axios
       .get("http://localhost:8080/posts/feed/", {
@@ -90,7 +105,7 @@ export const HomePagePosts = () => {
         },
       })
       .then((res) => {
-        // console.log(res.data);
+        console.log(res.data);
         setPosts(res.data.data);
         setMatchArray(res.data.data);
       });
@@ -146,8 +161,8 @@ export const HomePagePosts = () => {
                           <span className="block text-gray-700 text-sm font-semibold">
                             {item.userFullName}
                           </span>
-                          <p className="block mt-px text-gray-600 hover:text-indigo-600 text-xs">
-                            {item.userName}
+                          <p className="block mt-px text-gray-600 text-xs">
+                            @{item.userName}
                           </p>
                         </div>
                       </div>
@@ -165,19 +180,8 @@ export const HomePagePosts = () => {
                       <p className="text-gray-600 mt-2">{item.description}</p>
                       <div className="mt-3 flex gap-4 text-gray-400">
                         <button>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          >
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                          </svg>
+                          <FaRegHeart />
+                          <FaHeart />
                         </button>
                       </div>
                     </div>
