@@ -300,7 +300,7 @@ export const UserPosts = ({posts, setPosts , matchArray, setMatchArray}) => {
                                     handleLike(e, item.isliked, item.postId);
                                   }}
                                   style={{
-                                    color: item.isliked ? "red" : "#ddd",
+                                    color: item.isliked==1 ? "red" : "#ddd",
                                     fontSize: "28px",
                                   }}
                                 />
@@ -339,7 +339,7 @@ export const UserPosts = ({posts, setPosts , matchArray, setMatchArray}) => {
                                               {ite.commentText}
                                             </p>
                                           </div>
-                                          {decoded.sub == ite.userName && (
+                                          
                                             <div
                                               className="ml-auto cursor-pointer"
                                               onClick={(e) =>
@@ -373,7 +373,7 @@ export const UserPosts = ({posts, setPosts , matchArray, setMatchArray}) => {
                                                 ></line>
                                               </svg>
                                             </div>
-                                          )}
+            
                                         </div>
                                       </div>
                                     </li>
