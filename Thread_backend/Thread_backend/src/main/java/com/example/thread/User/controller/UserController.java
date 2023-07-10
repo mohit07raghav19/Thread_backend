@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -122,13 +123,14 @@ public class UserController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @GetMapping(value = "/get/user", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> getUserByDetails(@RequestBody User user) {
+    @GetMapping(value = "/get/user/{email}/{securityq}", produces = "application/json")
+    public ResponseEntity<?> getUserByDetails(@PathVariable("email") String email,
+            @PathVariable("securityq") String securityq) {
         apiResponse = new APIResponse();
         User getUser;
         try {
             Vector<User> vec = new Vector<>();
-            getUser = userRepo.findByUserDetails(user.getEmail(), user.getSecurityq());
+            getUser = userRepo.findByUserDetails(email, securityq);
             if (getUser != null) {
                 getUser.setConnector(null);
                 vec.add(getUser);
@@ -160,7 +162,7 @@ public class UserController {
             updatedUser = userService.changePassword(user);
             updatedUser.setConnector(null);
             vec.add(updatedUser);
-            apiResponse.setMessage("User created!");
+            apiResponse.setMessage("Password Changed!");
             apiResponse.setStatus("success");
             apiResponse.setCount(1);
             apiResponse.setData(vec);
@@ -175,20 +177,8 @@ public class UserController {
     }
 
     @GetMapping({ "/forAdmin" })
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAuthority('Admin')")
     public String forAdmin() {
         return "This URL is only accessible to the admin";
-    }
-
-    @GetMapping({ "/forUser" })
-    @PreAuthorize("hasRole('User')")
-    public String forUser() {
-        return "This URL is only accessible to the user";
-    }
-
-    @GetMapping({ "/forUserAndAdmin" })
-    @PreAuthorize("hasAnyRole('User','Admin')")
-    public String forUserAndAdmin() {
-        return "This URL is accessible to both user and admin.";
     }
 }

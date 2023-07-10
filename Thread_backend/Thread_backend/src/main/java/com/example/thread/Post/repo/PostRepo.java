@@ -28,4 +28,6 @@ public interface PostRepo extends JpaRepository<Post, String> {
                         + ") "
                         + "ORDER BY creation_time DESC", nativeQuery = true)
         List<Post> PostsLikedByUser(@Param("userName") String userName);
+
+        List<Post> findAll();
 }

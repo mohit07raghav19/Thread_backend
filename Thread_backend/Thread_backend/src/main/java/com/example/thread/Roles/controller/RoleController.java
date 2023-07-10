@@ -23,7 +23,7 @@ public class RoleController {
     private APIResponse apiResponse;
 
     @PostMapping("/createNewRole")
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAuthority('Admin')")
     public ResponseEntity<?> createNewRole(@RequestBody Role role) {
         Role newRole = roleService.createNewRole(role);
         Vector<Role> vec = new Vector<>();

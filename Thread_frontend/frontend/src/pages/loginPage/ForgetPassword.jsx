@@ -1,7 +1,9 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 // Initialization for ES Users
 import { Modal, Ripple, initTE } from "tw-elements";
+import { toast } from "react-toastify";
 
 export default function ForgetPassword() {
   useEffect(() => {
@@ -87,6 +89,82 @@ export default function ForgetPassword() {
         .classList.remove("focus:border-red-600");
     }
   }
+
+  function handleChangePassword(e) {
+    let em = document.getElementById("em").value;
+    let secu = document.getElementById("secu").value;
+    let pass = document.getElementById("password").value;
+    let cPass = document.getElementById("confirm_password").value;
+    const id = toast.loading("Checking Details...", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+    axios
+      .get(`http://localhost:8080/get/user/${em}/${secu}`)
+      .then((res) => {
+        console.log(res);
+        if (res.data.count == 0) {
+          throw new Error("User Doesn't Exists With Details");
+        } else {
+          axios
+            .post("http://localhost:8080/changepassword", {
+              email: em,
+              userPassword: pass,
+              securityq: secu,
+            })
+            .then((r) => {
+              // console.log(r);
+              setTimeout(
+                function () {
+                  toast.update(id, {
+                    render: "Password Updated Successfully",
+                    type: "success",
+                    isLoading: false,
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 1500,
+                  });
+                  setTimeout(function () {}, [1500]);
+                },
+                [700]
+              );
+              let forgetform = document.getElementById("forgetform");
+              forgetform.reset();
+              e.target.setAttribute("data-te-modal-dismiss", "");
+
+            })
+            .catch((err) => {
+              // console.log(err);
+
+              setTimeout(
+                function () {
+                  toast.update(id, {
+                    render: "User Doesn't Exists With Details",
+                    type: "error",
+                    isLoading: false,
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 1000,
+                  });
+                },
+                [500]
+              );
+            });
+        }
+      })
+      .catch((e) => {
+        // console.log(e);
+        setTimeout(
+          function () {
+            toast.update(id, {
+              render: "User Doesn't Exists With Details",
+              type: "error",
+              isLoading: false,
+              position: toast.POSITION.TOP_CENTER,
+              autoClose: 1000,
+            });
+          },
+          [500]
+        );
+      });
+  }
   return (
     <>
       {/* Button trigger modal */}
@@ -148,6 +226,7 @@ export default function ForgetPassword() {
             {/*Modal body*/}
             <div className="relative overflow-y-auto p-4">
               <form
+                id="forgetform"
                 onSubmit={(e) => e.preventDefault()}
                 className="space-y-5 m-8"
               >
@@ -156,6 +235,7 @@ export default function ForgetPassword() {
                   <input
                     type="email"
                     required
+                    id="em"
                     name="email"
                     className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                   />
@@ -227,6 +307,9 @@ export default function ForgetPassword() {
                 Close
               </button>
               <button
+                onClick={(e) => {
+                  handleChangePassword(e);
+                }}
                 type="button"
                 className="ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                 data-te-ripple-init=""

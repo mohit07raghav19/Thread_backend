@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 
 @RestController
@@ -47,7 +48,7 @@ public class PostController {
     private APIResponse apiResponse;
 
     @GetMapping("posts/feed")
-    public ResponseEntity<?> getAllPosts(Authentication authentication) {
+    public ResponseEntity<?> getAllConnectionsPosts(Authentication authentication) {
         apiResponse = new APIResponse();
         List<PostResponse> posts;
         Vector<PostResponse> vec = new Vector<>();
@@ -55,6 +56,40 @@ public class PostController {
             User LoggedInUser = userRepo.findByUserName(authentication.getName());
             String loggedUserName = LoggedInUser.getUserName();
             posts = this.postService.getAllPostsFeed(authentication);
+            for (PostResponse p : posts) {
+                String post_id = p.getPostId();
+                if (likeRepo.isLikedByUser(loggedUserName, post_id) == null)
+                    p.setIsliked(0);
+                else
+                    p.setIsliked(1);
+            }
+            vec.addAll(posts);
+            apiResponse.setMessage("All Posts fetched Successfully");
+            apiResponse.setData(vec);
+            apiResponse.setStatus("success");
+            apiResponse.setCount(vec.size());
+        } catch (Exception e) {
+            apiResponse.setMessage(e.getMessage());
+            apiResponse.setData(null);
+            apiResponse.setStatus("fail");
+            apiResponse.setCount(0);
+        }
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @GetMapping("all/posts/")
+    @PreAuthorize("hasAuthority('Admin')")
+    public ResponseEntity<?> getAllPosts(Authentication authentication) {
+        apiResponse = new APIResponse();
+        List<PostResponse> posts = new ArrayList<>();
+        Vector<PostResponse> vec = new Vector<>();
+        try {
+            User LoggedInUser = userRepo.findByUserName(authentication.getName());
+            String loggedUserName = LoggedInUser.getUserName();
+            List<Post> allposts = this.postRepo.findAll();
+            for (Post post : allposts) {
+                posts.add(new PostResponse(post));
+            }
             for (PostResponse p : posts) {
                 String post_id = p.getPostId();
                 if (likeRepo.isLikedByUser(loggedUserName, post_id) == null)
@@ -178,7 +213,7 @@ public class PostController {
 
     @PostMapping("posts/")
     public ResponseEntity<?> addPost(Authentication authentication, @RequestParam("post") String post,
-            @RequestParam(value="file",required = false) MultipartFile file) {
+            @RequestParam(value = "file", required = false) MultipartFile file) {
         apiResponse = new APIResponse();
         Vector<PostResponse> vec = new Vector<>();
         ObjectMapper objectMapper = new ObjectMapper();

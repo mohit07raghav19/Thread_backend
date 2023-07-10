@@ -3,6 +3,7 @@ import react, { useEffect, useRef, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import axios from "axios";
 import { JwtDecoder } from "../../Utils/JwtDecoder";
+import { toast } from "react-toastify";
 
 export const UserPosts = ({posts, setPosts , matchArray, setMatchArray}) => {
     const Token = sessionStorage.getItem("jwtToken");
