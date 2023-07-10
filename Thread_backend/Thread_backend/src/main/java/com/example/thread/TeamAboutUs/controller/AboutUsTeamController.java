@@ -25,7 +25,7 @@ public class AboutUsTeamController {
     private APIResponse apiResponse;
 
     @PostMapping(value = "/addMember", produces = "application/json")
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAuthority('Admin')")
     public ResponseEntity<?> addMember(@RequestBody AboutUsTeam mem) {
         apiResponse = new APIResponse();
         Vector<AboutUsTeam> vec = new Vector<>();

@@ -19,7 +19,7 @@ public class User {
     private String userFullName;
     @Column(nullable = false, updatable = true)
     private String userPassword;
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, unique = true)
     private String email;
     @Column(nullable = true, updatable = true)
     private String city;

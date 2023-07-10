@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { JwtDecoder } from "../../Utils/JwtDecoder";
 import { Modal, Ripple, initTE } from "tw-elements";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 const UserSideBar = ({ setPosts }) => {
   const Token = sessionStorage.getItem("jwtToken");
   const navigate = useNavigate();
@@ -122,17 +123,19 @@ const UserSideBar = ({ setPosts }) => {
     let un = document.getElementById("un").value;
     let fn = document.getElementById("fn");
     const formData = new FormData();
-    if(un=="" && fn.files.length==0){
-        console.log("Please send data");
-        e.target.setAttribute("data-te-modal-dismiss", " ");
-        return;
+    if (un == "" && fn.files.length == 0) {
+      console.log("Please send data");
+      e.target.setAttribute("data-te-modal-dismiss", " ");
+      return;
     }
-    if(fn.files[0]){
-        formData.append("file", fn.files[0]);
+    if (fn.files[0]) {
+      formData.append("file", fn.files[0]);
+    } else {
+      formData.append("file", null);
     }
-    else{
-        formData.append("file",null);
-    }
+    const id = toast.loading("Uploading Post...", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
     formData.append("post", JSON.stringify({ description: un }));
     axios
       .post("http://localhost:8080/posts/", formData, {
@@ -143,24 +146,55 @@ const UserSideBar = ({ setPosts }) => {
       .then((res) => {
         // console.log(res)
         // e.target.setAttribute("data-te-modal-dismiss","");
+
+        setTimeout(
+          function () {
+            toast.update(id, {
+              render: "Post Uploaded",
+              type: "success",
+              isLoading: false,
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 1500,
+            });
+            setTimeout(function () {}, [1500]);
+          },
+          [700]
+        );
         e.target.setAttribute("data-te-modal-dismiss", " ");
-        console.log(e.target)
-        axios
-          .get(`http://localhost:8080/posts/user/${decoded.userName}`, {
-            headers: {
-              Authorization: `Bearer ${Token}`,
-            },
-          })
-          .then((res) => {
-            // console.log(res.data);
-            window.location.reload();
-            // setPosts(res.data.data);
-          });
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        // console.log(e.target);
+        // axios
+        //   .get(`http://localhost:8080/posts/user/${decoded.userName}`, {
+        //     headers: {
+        //       Authorization: `Bearer ${Token}`,
+        //     },
+        //   })
+        //   .then((res) => {
+        //     // console.log(res.data);
+        //     setTimeout(() => {
+        //       window.location.reload();
+        //     }, 1500);
+        //     // setPosts(res.data.data);
+        //   });
 
         // console.log(e.target)
       })
       .catch((e) => {
-        console.log(e);
+        // console.log(e);
+        setTimeout(
+          function () {
+            toast.update(id, {
+              render: "Network Error",
+              type: "error",
+              isLoading: false,
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 1000,
+            });
+          },
+          [500]
+        );
       });
   }
   return (
@@ -192,7 +226,7 @@ const UserSideBar = ({ setPosts }) => {
                 </li>
               ))}
               <li>
-                <button
+                <Link
                   className="flex items-center mt-4 gap-x-2 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150"
                   data-te-toggle="modal"
                   data-te-target="#exampleModalScrollable"
@@ -216,8 +250,33 @@ const UserSideBar = ({ setPosts }) => {
                     </svg>
                   </div>
                   <p className="text-lg">Add Post</p>
-                </button>
+                </Link>
               </li>
+              {decoded.roles.includes("Admin") && (
+                <li>
+                  <Link
+                    className="flex items-center mt-4 gap-x-2 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150"
+                    to="/queries"
+                  >
+                    <div className="text-gray-500">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="32"
+                        height="32"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                      </svg>
+                    </div>
+                    <p className="text-lg">Queries</p>
+                  </Link>
+                </li>
+              )}
             </ul>
 
             <div>
@@ -342,14 +401,16 @@ const UserSideBar = ({ setPosts }) => {
                 data-te-ripple-init=""
                 data-te-ripple-color="light"
               >
-                Close
+                Cancel
               </button>
               <button
-                onDoubleClick={(e) => handlepost(e)}
+                onClick={(e) => handlepost(e)}
                 type="button"
-                className="ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"
+                className="ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                data-te-ripple-init=""
+                data-te-ripple-color="light"
               >
-                Update
+                Upload
               </button>
             </div>
           </div>

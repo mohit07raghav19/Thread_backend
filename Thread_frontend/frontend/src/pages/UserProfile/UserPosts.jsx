@@ -3,8 +3,9 @@ import react, { useEffect, useRef, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import axios from "axios";
 import { JwtDecoder } from "../../Utils/JwtDecoder";
+import { toast } from "react-toastify";
 
-export const UserPosts = ({posts, setPosts , matchArray, setMatchArray}) => {
+export const UserPosts = ({ posts, setPosts, matchArray, setMatchArray }) => {
   const [noMatch, setNoMatch] = useState(null);
   const Token = sessionStorage.getItem("jwtToken");
   const decoded = JwtDecoder(Token);
@@ -13,8 +14,8 @@ export const UserPosts = ({posts, setPosts , matchArray, setMatchArray}) => {
     return posts.filter((post) => {
       // here we need to figure out if the city or state matches what was searched
       const regex = new RegExp(wordToMatch, "gi");
-      if(post.description!=null){
-          return post.description.match(regex);
+      if (post.description != null) {
+        return post.description.match(regex);
       }
     });
   }
@@ -34,6 +35,9 @@ export const UserPosts = ({posts, setPosts , matchArray, setMatchArray}) => {
     }
   }
   function deletepost(e, pid) {
+    const id = toast.loading("Deleting Post...", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
     axios
       .delete(`http://localhost:8080/posts/${pid}`, {
         headers: {
@@ -41,23 +45,51 @@ export const UserPosts = ({posts, setPosts , matchArray, setMatchArray}) => {
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
+        setTimeout(
+          function () {
+            toast.update(id, {
+              render: "Post Deleted..",
+              type: "success",
+              isLoading: false,
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 1500,
+            });
+            setTimeout(function () {}, [1500]);
+          },
+          [700]
+        );
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
+        setTimeout(
+          function () {
+            toast.update(id, {
+              render: "Post Not Deleted Due To network Error !!",
+              type: "error",
+              isLoading: false,
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 1000,
+            });
+          },
+          [500]
+        );
       });
-    
-      axios
-      .get(`http://localhost:8080/posts/user/${decoded.userName}`, {
-        headers: {
-          Authorization: `Bearer ${Token}`,
-        },
-      })
-      .then((res) => {
-        // console.log(res.data);
-        setPosts(res.data.data);
-        setMatchArray(res.data.data);
-      });
+
+    // axios
+    //   .get(`http://localhost:8080/posts/user/${decoded.userName}`, {
+    //     headers: {
+    //       Authorization: `Bearer ${Token}`,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     // console.log(res.data);
+    //     setPosts(res.data.data);
+    //     setMatchArray(res.data.data);
+    //   });
   }
   function deleteComment(e, cid) {
     axios
@@ -69,21 +101,20 @@ export const UserPosts = ({posts, setPosts , matchArray, setMatchArray}) => {
       .then((res) => {
         console.log(res);
         axios
-      .get(`http://localhost:8080/posts/user/${decoded.userName}`, {
-        headers: {
-          Authorization: `Bearer ${Token}`,
-        },
-      })
-      .then((res) => {
-        // console.log(res.data);
-        setPosts(res.data.data);
-        setMatchArray(res.data.data);
-      });
+          .get(`http://localhost:8080/posts/user/${decoded.userName}`, {
+            headers: {
+              Authorization: `Bearer ${Token}`,
+            },
+          })
+          .then((res) => {
+            // console.log(res.data);
+            setPosts(res.data.data);
+            setMatchArray(res.data.data);
+          });
       })
       .catch((err) => {
         console.log(err);
       });
-    
   }
   function addComment(e, comm) {
     const data = { commentText: e.target[0].value };
@@ -208,16 +239,18 @@ export const UserPosts = ({posts, setPosts , matchArray, setMatchArray}) => {
 
           <div className="mt-12 flex justify-center ">
             <ul className="grid gap-8 sm:grid-cols-1 w-4/5  md:grid-cols-2">
-              {matchArray.length!=0 && noMatch && (
+              {matchArray.length != 0 && noMatch && (
                 <span className="block text-gray-700 text-sm font-semibold">
                   No match found
                 </span>
               )}
-              {matchArray.length==0 && <span className="block text-gray-700 text-sm font-semibold">
+              {matchArray.length == 0 && (
+                <span className="block text-gray-700 text-sm font-semibold">
                   You have no posts. Please Add a New Post.
-                </span>}
+                </span>
+              )}
               {noMatch == null &&
-                matchArray.length>0 &&
+                matchArray.length > 0 &&
                 matchArray.map((item, idx) => (
                   <li key={idx} className="border-2 p-4 shadow-md rounded-md">
                     <div className="py-4 px-4">
@@ -234,45 +267,31 @@ export const UserPosts = ({posts, setPosts , matchArray, setMatchArray}) => {
                             @{item.userName}
                           </p>
                           <span className="block mt-px text-gray-600 text-xs">
-                                              {item.creationTime}
-                              </span>
+                            {item.creationTime}
+                          </span>
                         </div>
                         <div className="flex items-center justify-center ml-auto">
-                            
-                              <div
-                                        className="cursor-pointer"
-                                        onClick={(e) =>
-                                          deletepost(e, item.postId)
-                                        }
-                                      >
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          width="24"
-                                          height="24"
-                                          viewBox="0 0 24 24"
-                                          fill="none"
-                                          stroke="currentColor"
-                                          stroke-width="1.5"
-                                          stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                        >
-                                          <polyline points="3 6 5 6 21 6"></polyline>
-                                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                          <line
-                                            x1="10"
-                                            y1="11"
-                                            x2="10"
-                                            y2="17"
-                                          ></line>
-                                          <line
-                                            x1="14"
-                                            y1="11"
-                                            x2="14"
-                                            y2="17"
-                                          ></line>
-                                        </svg>
-                                      </div>
-                                      
+                          <div
+                            className="cursor-pointer"
+                            onClick={(e) => deletepost(e, item.postId)}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
+                              <polyline points="3 6 5 6 21 6"></polyline>
+                              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                              <line x1="10" y1="11" x2="10" y2="17"></line>
+                              <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -308,7 +327,7 @@ export const UserPosts = ({posts, setPosts , matchArray, setMatchArray}) => {
                     {item.comments.length > 0 && (
                       <>
                         <span className="block text-gray-700 text-sm font-semibold mt-3">
-                          Comments 
+                          Comments
                         </span>
                         <ol className="h-36 overflow-y-scroll ">
                           {item.comments.map((ite, id) => {

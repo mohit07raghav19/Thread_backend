@@ -25,7 +25,10 @@ public class PostServiceImpl implements PostService {
 
     // Please Create a folder("MyImages") in public dir of React App.
     // And Add the Full Path here
-    public final static String FOLDER_PATH = "E:\\webdproject\\Thread_backend\\Thread_frontend\\frontend\\public\\MyImages\\";
+
+    // public final static String FOLDER_PATH =
+    // "E:\\webdproject\\Thread_backend\\Thread_frontend\\frontend\\public\\MyImages\\";
+    public final static String FOLDER_PATH = "/Users/mohitraghav/Desktop/THREAD_MOHIT/Thread_repo/Thread_frontend/frontend/public/MyImages/";
 
     @Autowired
     private PostRepo postRepo;
@@ -154,7 +157,7 @@ public class PostServiceImpl implements PostService {
             throw new Exception("user not authorized");
         }
         // ! Get All Posts except Logged in User
-        // !  --> Connections post
+        // ! --> Connections post
         // * Also left --> Not to include Liked posts
 
         List<Post> posts = this.postRepo.findPostOfConnections(LoggedInUser.getUserName());
@@ -218,9 +221,9 @@ public class PostServiceImpl implements PostService {
         if (LoggedInUser == null) {
             throw new Exception("user not authorized");
         }
-        String image =null;
-        if(file!=null){
-           image = file.getOriginalFilename();
+        String image = null;
+        if (file != null) {
+            image = file.getOriginalFilename();
         }
         String desc = post.getDescription();
         if (desc == null && image == null)
