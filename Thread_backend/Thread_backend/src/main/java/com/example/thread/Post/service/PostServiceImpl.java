@@ -173,24 +173,26 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<String> getAllPosts(Authentication authentication) throws Exception {
+    public List<PostResponse> getAllPosts(Authentication authentication) throws Exception {
         User LoggedInUser = userRepo.findByUserName(authentication.getName());
         if (LoggedInUser == null) {
             throw new Exception("user not authorized");
         }
         // Pageable pageable = PageRequest.of(0, 1);
-        List<String> posts = this.postRepo.findAllPostsAdmin1();
+        // List<String> posts = this.postRepo.findAllPostsAdmin1();
+        List<Post> posts = this.postRepo.findAll();
+        //
 
         // Page<Post> posts = this.postRepo.findAll(pageable);
         // List<Post> allRoles = posts.getContent();
 
-        // List<PostResponse> postResponse = new ArrayList<PostResponse>();
-        // for (Post post : posts) {
-        // post.getUser().setLiked(null);
-        // post.getUser().setConnector(null);
-        // postResponse.add(new PostResponse(post));
-        // }
-        return posts;
+        List<PostResponse> postResponse = new ArrayList<PostResponse>();
+        for (Post post : posts) {
+            post.getUser().setLiked(null);
+            post.getUser().setConnector(null);
+            postResponse.add(new PostResponse(post));
+        }
+        return postResponse;
     }
 
     @Override

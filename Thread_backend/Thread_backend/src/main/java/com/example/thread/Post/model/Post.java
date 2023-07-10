@@ -8,6 +8,7 @@ import javax.persistence.*;
 import com.example.thread.Comments.model.Comment;
 import com.example.thread.Likes.model.Likes;
 import com.example.thread.User.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "post")
@@ -16,6 +17,7 @@ public class Post {
     private String postId;
 
     @OneToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     private User user;
 
     @Column(columnDefinition = "LONGTEXT")
@@ -27,9 +29,11 @@ public class Post {
     private LocalDateTime creationTime;
 
     @OneToMany(mappedBy = "postOn", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     List<Comment> comments;
 
     @OneToMany(mappedBy = "postLiked", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore
     List<Likes> likes;
 
     public String getPostId() {

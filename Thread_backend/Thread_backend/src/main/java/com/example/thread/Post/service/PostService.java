@@ -22,5 +22,5 @@ public interface PostService {
 
     public void initPosts();
 
-    public List<String> getAllPosts(Authentication authentication) throws Exception;
+    public List<PostResponse> getAllPosts(Authentication authentication) throws Exception;
 }

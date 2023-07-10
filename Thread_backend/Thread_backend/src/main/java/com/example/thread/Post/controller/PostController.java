@@ -83,14 +83,14 @@ public class PostController {
         apiResponse = new APIResponse();
         // List<PostResponse> posts = new ArrayList<>();
         // Vector<PostResponse> vec = new Vector<>();
-        Vector<String> vec1 = new Vector<>();
+        Vector<PostResponse> vec1 = new Vector<>();
         // Vector<Post> vec = new Vector<>();
 
         try {
             // User LoggedInUser = userRepo.findByUserName(authentication.getName());
             // String loggedUserName = LoggedInUser.getUserName();
             // posts = this.postService.getAllPosts(authentication);
-            List<String> postids = this.postService.getAllPosts(authentication);
+            List<PostResponse> postids = this.postService.getAllPosts(authentication);
             // for (Post post : posts1) {
             // post.getUser().setLiked(null);
             // post.getUser().setCity(null);
