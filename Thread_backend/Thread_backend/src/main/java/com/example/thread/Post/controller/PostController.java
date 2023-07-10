@@ -81,27 +81,35 @@ public class PostController {
     @PreAuthorize("hasAuthority('Admin')")
     public ResponseEntity<?> getAllPosts(Authentication authentication) {
         apiResponse = new APIResponse();
-        List<PostResponse> posts = new ArrayList<>();
-        Vector<PostResponse> vec = new Vector<>();
+        // List<PostResponse> posts = new ArrayList<>();
+        // Vector<PostResponse> vec = new Vector<>();
+        Vector<String> vec1 = new Vector<>();
+        // Vector<Post> vec = new Vector<>();
+
         try {
-            User LoggedInUser = userRepo.findByUserName(authentication.getName());
-            String loggedUserName = LoggedInUser.getUserName();
-            List<Post> allposts = this.postRepo.findAll();
-            for (Post post : allposts) {
-                posts.add(new PostResponse(post));
-            }
-            for (PostResponse p : posts) {
-                String post_id = p.getPostId();
-                if (likeRepo.isLikedByUser(loggedUserName, post_id) == null)
-                    p.setIsliked(0);
-                else
-                    p.setIsliked(1);
-            }
-            vec.addAll(posts);
+            // User LoggedInUser = userRepo.findByUserName(authentication.getName());
+            // String loggedUserName = LoggedInUser.getUserName();
+            // posts = this.postService.getAllPosts(authentication);
+            List<String> postids = this.postService.getAllPosts(authentication);
+            // for (Post post : posts1) {
+            // post.getUser().setLiked(null);
+            // post.getUser().setCity(null);
+            // posts.add(new PostResponse(post));
+            // }
+            // for (PostResponse p : posts) {
+            // String post_id = p.getPostId();
+
+            // if (likeRepo.isLikedByUser(loggedUserName, post_id) == null)
+            // p.setIsliked(0);
+            // else
+            // p.setIsliked(1);
+            // }
+            vec1.addAll(postids);
+            // vec.addAll(posts);
             apiResponse.setMessage("All Posts fetched Successfully");
-            apiResponse.setData(vec);
+            apiResponse.setData(vec1);
             apiResponse.setStatus("success");
-            apiResponse.setCount(vec.size());
+            apiResponse.setCount(vec1.size());
         } catch (Exception e) {
             apiResponse.setMessage(e.getMessage());
             apiResponse.setData(null);
@@ -146,7 +154,9 @@ public class PostController {
     public ResponseEntity<?> getPostById(Authentication authentication, @PathVariable String postId) {
         Post post;
         try {
+            // post = this.postService.getPostById(authentication, postId);
             post = this.postService.getPostById(authentication, postId);
+
             if (post != null) {
                 apiResponse = new APIResponse();
                 PostResponse pResp = new PostResponse(post);

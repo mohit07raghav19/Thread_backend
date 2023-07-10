@@ -21,4 +21,6 @@ public interface PostService {
     public List<PostResponse> addPost(Authentication authentication, Post post, MultipartFile file) throws Exception;
 
     public void initPosts();
+
+    public List<String> getAllPosts(Authentication authentication) throws Exception;
 }

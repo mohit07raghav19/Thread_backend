@@ -11,6 +11,9 @@ import java.util.List;
 public interface PostRepo extends JpaRepository<Post, String> {
         Post findByPostId(String postId);
 
+        @Query(value = "select * from post where post_id like :post_id% ", nativeQuery = true)
+        List<Post> findListByPostId(@Param("post_id") String postId);
+
         @Query(value = "select * from post where user_user_name like %:userName% "
                         + "ORDER BY creation_time DESC", nativeQuery = true)
         List<Post> findByUser(@Param("userName") String userName);
@@ -19,6 +22,12 @@ public interface PostRepo extends JpaRepository<Post, String> {
                         + "(select c.connection_to from connections c where c.connector like :loggedUserName )"
                         + "ORDER BY creation_time DESC", nativeQuery = true)
         List<Post> findPostOfConnections(@Param("loggedUserName") String loggedUserName);
+
+        // @Query(value = "select * from post ", nativeQuery = true)
+        // List<Post> findAllPostsAdmin();
+
+        @Query(value = "select post_id from post ", nativeQuery = true)
+        List<String> findAllPostsAdmin1();
 
         @Query(value = "SELECT * "
                         + "FROM post "
@@ -29,5 +38,6 @@ public interface PostRepo extends JpaRepository<Post, String> {
                         + "ORDER BY creation_time DESC", nativeQuery = true)
         List<Post> PostsLikedByUser(@Param("userName") String userName);
 
-        List<Post> findAll();
+        // @Query(value = "select * from post", nativeQuery = true)
+        // List<Post> findAllPostsforAdmin();
 }

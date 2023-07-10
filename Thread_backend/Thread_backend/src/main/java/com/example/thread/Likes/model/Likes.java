@@ -9,18 +9,20 @@ import javax.persistence.ManyToOne;
 
 import com.example.thread.Post.model.Post;
 import com.example.thread.User.model.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Likes {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int likeId;
-
     @ManyToOne()
+
     @JoinColumn(name = "userName")
     private User userLiked;
-
     @ManyToOne()
+
     @JoinColumn(name = "postId")
     private Post postLiked;
 

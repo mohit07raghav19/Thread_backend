@@ -7,12 +7,15 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.data.domain.Page;
+// import org.springframework.data.domain.PageRequest;
+// import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.thread.Connections.repo.ConnectionRepo;
+// import com.example.thread.Connections.repo.ConnectionRepo;
 import com.example.thread.Post.model.Post;
 import com.example.thread.Post.model.PostResponse;
 import com.example.thread.Post.repo.PostRepo;
@@ -35,8 +38,8 @@ public class PostServiceImpl implements PostService {
     @Autowired
     UserRepo userRepo;
 
-    @Autowired
-    private ConnectionRepo conRepo;
+    // @Autowired
+    // private ConnectionRepo conRepo;
     @Autowired
     RoleRepo roleRepo;
 
@@ -170,6 +173,27 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<String> getAllPosts(Authentication authentication) throws Exception {
+        User LoggedInUser = userRepo.findByUserName(authentication.getName());
+        if (LoggedInUser == null) {
+            throw new Exception("user not authorized");
+        }
+        // Pageable pageable = PageRequest.of(0, 1);
+        List<String> posts = this.postRepo.findAllPostsAdmin1();
+
+        // Page<Post> posts = this.postRepo.findAll(pageable);
+        // List<Post> allRoles = posts.getContent();
+
+        // List<PostResponse> postResponse = new ArrayList<PostResponse>();
+        // for (Post post : posts) {
+        // post.getUser().setLiked(null);
+        // post.getUser().setConnector(null);
+        // postResponse.add(new PostResponse(post));
+        // }
+        return posts;
+    }
+
+    @Override
     public List<PostResponse> getAllPostsByUser(Authentication authentication, String userName) throws Exception {
         User LoggedInUser = userRepo.findByUserName(authentication.getName());
         if (LoggedInUser == null) {
@@ -190,8 +214,11 @@ public class PostServiceImpl implements PostService {
         if (LoggedInUser == null) {
             throw new Exception("user not authorized");
         }
+        // Post post = this.postRepo.findByPostId(postId);
         Post post = this.postRepo.findByPostId(postId);
-        if (LoggedInUser.getUserName().equals(post.getUser().getUserName()))
+
+        if ((LoggedInUser.getUserName().equals(post.getUser().getUserName())
+                || LoggedInUser.getRole().contains(roleRepo.findByRoleName("Admin"))))
             return post;
         else
             return null;
@@ -226,11 +253,11 @@ public class PostServiceImpl implements PostService {
             image = file.getOriginalFilename();
         }
         String desc = post.getDescription();
-        if (desc == null && image == null)
-            throw new Exception("image and desc both can't be null");
 
         if (desc == null)
             post.setDescription(null);
+        if (desc == null && (image == null))
+            throw new Exception("image and desc both can't be null");
         if (image != null) {
             String fileNameWithoutExtension = image.substring(0, image.lastIndexOf('.'));
             String fileExtension = image.substring(image.lastIndexOf("."));
