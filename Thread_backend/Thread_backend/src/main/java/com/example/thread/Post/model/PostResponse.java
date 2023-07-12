@@ -99,7 +99,6 @@ public class PostResponse {
             this.comments = cResp;
         } else
             this.comments = null;
-        // this.comments = comments;
         LocalDateTime now = LocalDateTime.now();
         Duration time = Duration.between(post.getCreationTime(), now);
         if (time.toDays() > 365) {

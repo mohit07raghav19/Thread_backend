@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
                         User adminUser1 = new User("Mohit_lcs32", "Mohit Raghav", null, "lcs2022032@iiitl.ac.in",
                                         "Lucknow",
                                         "Male", "04/03/2004",
-                                        "mohit.jpeg");
+                                        "mohit.jpeg", adminRoles, "Thread");
                         adminUser1.setUserPassword(getEncodedPassword("Mohit@1234"));
                         User adminUser2 = new User("Yash_lcs57", "Yash Aggarwal", null, "lcs2022057@iiitl.ac.in",
                                         "Lucknow",
@@ -208,8 +208,6 @@ public class UserServiceImpl implements UserService {
                 return userRepo.save(user);
 
         }
-
-        // !! FILE PATH INCLUDED
 
         @Override
         public User updateUser(User user, MultipartFile file) throws Exception {

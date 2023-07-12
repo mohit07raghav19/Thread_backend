@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 import com.example.thread.Post.model.Post;
 import com.example.thread.User.model.User;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Comment {

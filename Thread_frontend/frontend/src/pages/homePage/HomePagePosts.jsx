@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import react, { useEffect, useRef, useState } from "react";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import axios from "axios";
 import { JwtDecoder } from "../../Utils/JwtDecoder";
 import { toast } from "react-toastify";
@@ -11,7 +11,9 @@ export const HomePagePosts = ({ nonConnections }) => {
   const [noMatch, setNoMatch] = useState(null);
   const Token = sessionStorage.getItem("jwtToken");
   const decoded = JwtDecoder(Token);
-  //   let userid=
+  let url = decoded.roles.includes("Admin")
+    ? "http://localhost:8080/all/posts/"
+    : `http://localhost:8080/posts/feed`;
   function findMatches(wordToMatch, posts) {
     return posts.filter((post) => {
       // here we need to figure out if the city or state matches what was searched
@@ -42,25 +44,27 @@ export const HomePagePosts = ({ nonConnections }) => {
         },
       })
       .then((res) => {
-        // console.log(res);
+        console.log(res);
+        // setPosts(res.data.data);
+        // setComments(res.data.data[0]);
         toast.success("Comment Deleted", {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 1000,
         });
+        axios
+          .get("http://localhost:8080/posts/feed/", {
+            headers: {
+              Authorization: `Bearer ${Token}`,
+            },
+          })
+          .then((res) => {
+            console.log(res.data);
+            setPosts(res.data.data);
+            setMatchArray(res.data.data);
+          });
       })
       .catch((err) => {
         console.log(err);
-      });
-    axios
-      .get("http://localhost:8080/posts/feed/", {
-        headers: {
-          Authorization: `Bearer ${Token}`,
-        },
-      })
-      .then((res) => {
-        // console.log(res.data);
-        setPosts(res.data.data);
-        setMatchArray(res.data.data);
       });
   }
   function addComment(e, comm) {
@@ -82,6 +86,7 @@ export const HomePagePosts = ({ nonConnections }) => {
               return item;
             }
           });
+          // setComments(res.data.data);
           setPosts(newar);
           setMatchArray(newar);
           e.target[0].value = "";
@@ -140,6 +145,37 @@ export const HomePagePosts = ({ nonConnections }) => {
         });
     }
   }
+  function deletepost(e, pid) {
+    axios
+      .delete(`http://localhost:8080/posts/${pid}`, {
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        if (res.data.data != null) {
+          toast.success("Post Deleted", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 1000,
+          });
+        }
+        axios
+          .get(`${url}`, {
+            headers: {
+              Authorization: `Bearer ${Token}`,
+            },
+          })
+          .then((res) => {
+            // console.log(res.data);
+            setPosts(res.data.data);
+            setMatchArray(res.data.data);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   // useEffect(()=>{},[posts]);
   useEffect(() => {
     axios
@@ -150,6 +186,7 @@ export const HomePagePosts = ({ nonConnections }) => {
       })
       .then((res) => {
         console.log(res.data);
+        // setComments(res.data.data);
         setPosts(res.data.data);
         setMatchArray(res.data.data);
       });
@@ -217,6 +254,29 @@ export const HomePagePosts = ({ nonConnections }) => {
                         <span className="block text-gray-700 text-sm ml-auto font-semibold">
                           {item.creationTime}
                         </span>
+                        {decoded.roles.includes("Admin") ? (
+                          <div
+                            className="cursor-pointer"
+                            onClick={(e) => deletepost(e, item.postId)}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
+                              <polyline points="3 6 5 6 21 6"></polyline>
+                              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                              <line x1="10" y1="11" x2="10" y2="17"></line>
+                              <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                          </div>
+                        ) : null}
                       </div>
                     </div>
                     {item.postImage && (

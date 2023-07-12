@@ -5,7 +5,7 @@ import { redirect, useNavigate } from "react-router-dom";
 export function loader({ req }) {
   console.log(sessionStorage.getItem("jwtToken") == null);
   if (sessionStorage.getItem("jwtToken") == null) {
-    throw redirect("/?message=PleaseLogin");
+    throw redirect("/?message=PleasèLogin");
   }
   return null;
 }

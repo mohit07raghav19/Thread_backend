@@ -23,9 +23,6 @@ public interface PostRepo extends JpaRepository<Post, String> {
                         + "ORDER BY creation_time DESC", nativeQuery = true)
         List<Post> findPostOfConnections(@Param("loggedUserName") String loggedUserName);
 
-        // @Query(value = "select * from post ", nativeQuery = true)
-        // List<Post> findAllPostsAdmin();
-
         @Query(value = "select post_id from post ", nativeQuery = true)
         List<String> findAllPostsAdmin1();
 
@@ -38,6 +35,4 @@ public interface PostRepo extends JpaRepository<Post, String> {
                         + "ORDER BY creation_time DESC", nativeQuery = true)
         List<Post> PostsLikedByUser(@Param("userName") String userName);
 
-        // @Query(value = "select * from post", nativeQuery = true)
-        // List<Post> findAllPostsforAdmin();
 }

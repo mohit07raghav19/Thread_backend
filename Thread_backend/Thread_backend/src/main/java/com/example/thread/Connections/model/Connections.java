@@ -3,8 +3,6 @@ package com.example.thread.Connections.model;
 import javax.persistence.*;
 
 import com.example.thread.User.model.User;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "connections")

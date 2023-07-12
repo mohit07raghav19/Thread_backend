@@ -37,7 +37,7 @@ export default function Navbar() {
   return (
     <nav ref={navRef} className="bg-white w-full top-0 z-20 sticky">
       <div className="items-center px-4 max-w-screen-xl mx-auto md:px-8 lg:flex">
-        <div className="flex items-center justify-between -mt-2 py-1 lg:py-1 lg:block">
+        <div className="flex items-center justify-between -mt-7 -mb-7 py-0 lg:py-1 lg:block">
           <div className="flex justify-center items-center">
             <img
               src="/MyImages/logo-final.png"

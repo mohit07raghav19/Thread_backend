@@ -9,6 +9,7 @@ import {
 import ForgetPassword from "./ForgetPassword";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Navbar from "../../components/Navbar";
 
 export function loader({ request }) {
   const pathname = new URL(request.url).searchParams.get("message") || null;
@@ -99,6 +100,8 @@ export default function Login() {
 
   // console.log(m);
   return (
+    <>
+      <Navbar />
     <main className="w-full flex">
       <div className="relative flex-1 hidden items-center justify-center h-screen bg-gray-900 lg:flex">
         <div className="relative z-10 w-full max-w-md">
@@ -214,6 +217,7 @@ export default function Login() {
           </form>
         </div>
       </div>
-    </main>
+      </main>
+      </>
   );
 }
