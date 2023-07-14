@@ -5,17 +5,12 @@ import { redirect, useNavigate } from "react-router-dom";
 export function loader({ req }) {
   console.log(sessionStorage.getItem("jwtToken") == null);
   if (sessionStorage.getItem("jwtToken") == null) {
-    throw redirect("/?message=PleasèLogin");
+    throw redirect("/?message=PleaseLogin");
   }
   return null;
 }
 export default function Gallery() {
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!sessionStorage.getItem("jwtToken")) {
-      navigate("/?message=PleaseLogin");
-    }
-  }, []);
   return (
     <div>
       <UserNavBar />

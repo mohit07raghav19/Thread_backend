@@ -5,14 +5,13 @@ import axios from "axios";
 import { JwtDecoder } from "../../Utils/JwtDecoder";
 import { toast } from "react-toastify";
 
-export const UserPosts = ({ posts, setPosts, matchArray, setMatchArray }) => {
+export const UserPosts = ({ posts, setPosts, matchArray, setMatchArray,url }) => {
   const Token = sessionStorage.getItem("jwtToken");
   const decoded = JwtDecoder(Token);
   const [noMatch, setNoMatch] = useState(null);
   //   let userid=
   function findMatches(wordToMatch, posts) {
     return posts.filter((post) => {
-      // here we need to figure out if the city or state matches what was searched
       const regex = new RegExp(wordToMatch, "gi");
       if (post.description != null) {
         return post.description.match(regex);
@@ -34,9 +33,6 @@ export const UserPosts = ({ posts, setPosts, matchArray, setMatchArray }) => {
       setMatchArray(posts);
     }
   }
-  let url = decoded.roles.includes("Admin")
-    ? "http://localhost:8080/all/posts/"
-    : `http://localhost:8080/posts/user/${decoded.userName}`;
   useEffect(() => {
     axios
       .get(`${url}`, {
@@ -196,6 +192,9 @@ export const UserPosts = ({ posts, setPosts, matchArray, setMatchArray }) => {
   return (
     <section className="relative ">
       <section className="absolute overflow-y-scroll h-screen noscrollbar left-80 py-6 w-4/5 min-h-screen .overflow-auto .overscroll-auto">
+      {matchArray.length > 0 && (<h3 className="m-4 text-gray-800 text-3xl font-semibold sm:text-4xl">
+        Manage Posts -
+      </h3>)}
         <div className="max-w-screen-xl mx-auto px-4 md:px-8 ">
           <div className="relative">
             <svg

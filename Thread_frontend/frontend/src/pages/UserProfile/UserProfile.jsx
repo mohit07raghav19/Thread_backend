@@ -17,6 +17,7 @@ export const UserProfile = () => {
   const [matchArray, setMatchArray] = useState(posts);
   const Token = sessionStorage.getItem("jwtToken");
   const decoded = JwtDecoder(Token);
+  let url = `http://localhost:8080/posts/user/${decoded.userName}`;
   useEffect(()=>{
     axios
       .get(`http://localhost:8080/posts/user/${decoded.userName}`, {
@@ -34,7 +35,7 @@ export const UserProfile = () => {
   return (
     <>
     <UserSideBar setPosts={setPosts}  /> \
-    <UserPosts posts={posts} setPosts={setPosts}  matchArray={matchArray} setMatchArray={setMatchArray}/>
+    <UserPosts posts={posts} setPosts={setPosts}  matchArray={matchArray} setMatchArray={setMatchArray} url={url}/>
     </>
   )
 }

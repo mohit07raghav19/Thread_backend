@@ -230,7 +230,7 @@ export const HomePagePosts = ({ nonConnections }) => {
               )}
               {matchArray.length == 0 && (
                 <span className="block text-gray-700 text-sm font-semibold">
-                  You have no connections.Please Connect to Users.
+                  Your connections have not posted anything. Add more connections.
                 </span>
               )}
               {noMatch == null &&

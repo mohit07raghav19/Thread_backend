@@ -20,6 +20,7 @@ import Userconnect, {
 import "react-toastify/dist/ReactToastify.css";
 import { Queries , loader as queryloader} from "./pages/UserProfile/Queries";
 import { ToastContainer } from "react-toastify";
+import { AdminPanel } from "./pages/UserProfile/AdminPanel";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,6 +38,7 @@ const router = createBrowserRouter(
       <Route path="/queries" element={<Queries />} loader={queryloader} />
       <Route path="/aboutus" element={<Aboutus />} />
       <Route path="/profile" element={<UserProfile />} />
+      <Route path="/adminpanel" element={<AdminPanel />} />
       <Route path="*" element={<NotFound />} />
     </Route>
   )

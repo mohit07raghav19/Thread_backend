@@ -1,5 +1,6 @@
 package com.example.thread.User.controller;
 
+import java.util.List;
 import java.util.Vector;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,30 @@ public class UserController {
         commentService.initComment();
         aboutService.initTeam();
     }
+
+    // @GetMapping(path="/getallappusers")
+    // @PreAuthorize("hasAuthority('Admin')")
+    // public ResponseEntity<?> getAllUsers(Authentication authentication) {
+    //     apiResponse = new APIResponse();
+    //     List<User> getAllUser;
+    //     Vector<List<User>> vec = new Vector<>();
+    //     try {
+    //         getAllUser = this.userService.getAllUsers(authentication);
+    //         vec.add(getAllUser);
+    //         apiResponse.setMessage("All users fetched successfully");
+    //         apiResponse.setData(vec);
+    //         apiResponse.setStatus("success");
+    //         apiResponse.setCount(vec.size());
+
+    //     } catch (Exception e) {
+    //         System.out.println(e);
+    //         apiResponse.setMessage(e.getMessage());
+    //         apiResponse.setData(null);
+    //         apiResponse.setStatus("fail");
+    //         apiResponse.setCount(0);
+    //     }
+    //     return ResponseEntity.ok(apiResponse);
+    // }
 
     @PostMapping(path = "/register", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> register(@RequestBody User user) {

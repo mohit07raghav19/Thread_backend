@@ -5,4 +5,4 @@ export const PasswordEncoder = (pass) => {
   
     console.log(hashedpass);
     return hashedpass ;
-  };
+};
